@@ -21,8 +21,12 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
 
         const isJustPressed = (btn: string) => input.has(btn) && !prevInput.current.has(btn);
 
-        if (isJustPressed('DOWN')) setSelectedRow(prev => Math.min(prev + 1, ROWS - 1));
-        if (isJustPressed('UP')) setSelectedRow(prev => Math.max(prev - 1, 0));
+        if (isJustPressed('DOWN')) {
+            setTimeout(() => setSelectedRow(prev => Math.min(prev + 1, ROWS - 1)), 0);
+        }
+        if (isJustPressed('UP')) {
+            setTimeout(() => setSelectedRow(prev => Math.max(prev - 1, 0)), 0);
+        }
 
         if (selectedRow === 0) { // Volume
             if (isJustPressed('LEFT')) setVolume(volume - 1);
@@ -72,7 +76,7 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
         }
 
         prevInput.current = new Set(input);
-    }, [input, selectedRow, volume, brightness, theme, setVolume, setBrightness, toggleMusic, setWallpaper, toggleTheme, currentSkin, setSkin, resetCalibration, isSkinUnlocked]);
+    }, [input, selectedRow, volume, brightness, theme, setVolume, setBrightness, toggleMusic, setWallpaper, toggleTheme, currentSkin, setSkin, resetCalibration, isSkinUnlocked, wallpaper]);
 
     // Scroll Logic
     useEffect(() => {

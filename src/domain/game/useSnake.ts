@@ -103,7 +103,7 @@ export const useSnake = (input: Set<string>) => {
         }
 
         setSnake(newSnake);
-    }, [food, randomFood]);
+    }, [food, randomFood, submitScore]);
 
     useEffect(() => {
         const interval = setInterval(moveSnake, INITIAL_SPEED);

@@ -66,10 +66,14 @@ export const ProfileApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
 
             // Switch Fields
             if (isJustPressed('UP')) {
-                setEditField(prev => prev === 'TITLE' ? 'NAME' : prev === 'NAME' ? 'AVATAR' : 'TITLE');
+                setTimeout(() => {
+                    setEditField(prev => prev === 'TITLE' ? 'NAME' : prev === 'NAME' ? 'AVATAR' : 'TITLE');
+                }, 0);
             }
             if (isJustPressed('DOWN')) {
-                setEditField(prev => prev === 'AVATAR' ? 'NAME' : prev === 'NAME' ? 'TITLE' : 'AVATAR');
+                setTimeout(() => {
+                    setEditField(prev => prev === 'AVATAR' ? 'NAME' : prev === 'NAME' ? 'TITLE' : 'AVATAR');
+                }, 0);
             }
 
             // Change Values
@@ -144,7 +148,7 @@ export const ProfileApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
         }
     }, [editField, isEditing]);
 
-    const totalScore = Object.values(records || {}).reduce((sum, r: any) => sum + (r?.highScore || 0), 0);
+    const totalScore = Object.values(records || {}).reduce((sum, r) => sum + (r?.highScore || 0), 0);
     const unlockedAchievements = achievements.filter(a => a.isUnlocked).length;
 
     // Theme Styles
@@ -259,7 +263,7 @@ export const ProfileApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
                             <div className="text-3xl font-bold text-blue-500">{totalScore}</div>
                         </div>
 
-                        {Object.entries(records || {}).map(([gameId, record]: [string, any]) => (
+                        {Object.entries(records || {}).map(([gameId, record]) => (
                             <div key={gameId} className={`flex justify-between items-center p-3 rounded-lg border shadow-sm ${cardBg}`}>
                                 <span className={`font-bold capitalize ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{gameId}</span>
                                 <span className="font-mono text-gray-500">{record.highScore}</span>

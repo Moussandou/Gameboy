@@ -122,11 +122,14 @@ export const useTetris = (input: Set<string>) => {
 
         if (!isPlaying || gameOver) {
             if (isJustPressed('START') || isJustPressed('A')) {
-                setGrid(Array(ROWS).fill(Array(COLS).fill(null)));
-                setPiece(randomTetromino());
-                setScore(0);
-                setGameOver(false);
-                setIsPlaying(true);
+                // Wrap in timeout to avoid synchronous set-state-in-effect warning
+                setTimeout(() => {
+                    setGrid(Array(ROWS).fill(Array(COLS).fill(null)));
+                    setPiece(randomTetromino());
+                    setScore(0);
+                    setGameOver(false);
+                    setIsPlaying(true);
+                }, 0);
             }
             prevInput.current = new Set(input);
             return;

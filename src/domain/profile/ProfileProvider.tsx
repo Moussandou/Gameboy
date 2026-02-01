@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { ProfileContext, type UserProfile, type GameRecord, type Achievement } from './ProfileContext';
 
 
@@ -21,7 +21,8 @@ const INITIAL_ACHIEVEMENTS: Achievement[] = [
         description: 'Play your first game',
         icon: '🎮',
         isUnlocked: false,
-        condition: (_, __) => true, // Unlocks on first score submission
+        // Unlocks on first score submission
+        condition: () => true,
     },
     {
         id: 'snake_novice',
@@ -53,33 +54,34 @@ const INITIAL_ACHIEVEMENTS: Achievement[] = [
 ];
 
 export const ProfileProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    // State
-    const [profile, setProfile] = useState<UserProfile>(DEFAULT_PROFILE);
-    const [records, setRecords] = useState<Record<string, GameRecord>>({});
-    const [achievements, setAchievements] = useState<Achievement[]>(INITIAL_ACHIEVEMENTS);
-
-    // Load Data on Mount
-    useEffect(() => {
+    // State - Lazy Initialization
+    const [profile, setProfile] = useState<UserProfile>(() => {
         try {
-            const storedProfile = localStorage.getItem(STORAGE_KEY_PROFILE);
-            const storedRecords = localStorage.getItem(STORAGE_KEY_RECORDS);
-            const storedAchievements = localStorage.getItem(STORAGE_KEY_ACHIEVEMENTS);
+            const stored = localStorage.getItem(STORAGE_KEY_PROFILE);
+            return stored ? JSON.parse(stored) : DEFAULT_PROFILE;
+        } catch { return DEFAULT_PROFILE; }
+    });
 
-            if (storedProfile) setProfile(JSON.parse(storedProfile));
-            if (storedRecords) setRecords(JSON.parse(storedRecords));
+    const [records, setRecords] = useState<Record<string, GameRecord>>(() => {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY_RECORDS);
+            return stored ? JSON.parse(stored) : {};
+        } catch { return {}; }
+    });
 
-            if (storedAchievements) {
-                // Merge stored status with definition (to keep conditions)
-                const savedStatus = JSON.parse(storedAchievements) as { id: string, isUnlocked: boolean }[];
-                setAchievements(prev => prev.map(ach => {
+    const [achievements, setAchievements] = useState<Achievement[]>(() => {
+        try {
+            const stored = localStorage.getItem(STORAGE_KEY_ACHIEVEMENTS);
+            if (stored) {
+                const savedStatus = JSON.parse(stored) as { id: string, isUnlocked: boolean }[];
+                return INITIAL_ACHIEVEMENTS.map(ach => {
                     const saved = savedStatus.find(s => s.id === ach.id);
                     return saved ? { ...ach, isUnlocked: saved.isUnlocked } : ach;
-                }));
+                });
             }
-        } catch (e) {
-            console.error('Failed to load profile data', e);
-        }
-    }, []);
+        } catch { /* ignore */ }
+        return INITIAL_ACHIEVEMENTS;
+    });
 
     // Persist Helpers
     const saveProfile = (p: UserProfile) => {
