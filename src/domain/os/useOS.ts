@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { OSState, AppId } from './types';
 
-const INPUT_DEBOUNCE_MS = 120; // Minimum ms between processing same button
+const INPUT_DEBOUNCE_MS = 200; // Minimum ms between processing same button
 
 export const useOS = (input: Set<string>) => {
     const [status, setStatus] = useState<OSState>('BOOT');
@@ -12,6 +12,8 @@ export const useOS = (input: Set<string>) => {
     const prevInput = useRef<Set<string>>(new Set());
     // Track last process time per button to debounce
     const lastProcessTime = useRef<Map<string, number>>(new Map());
+    // Track if we already processed this frame
+    const processedThisFrame = useRef<Set<string>>(new Set());
 
     // Boot Sequence
     useEffect(() => {
@@ -27,15 +29,20 @@ export const useOS = (input: Set<string>) => {
     useEffect(() => {
         const now = Date.now();
 
+        // Clear processed flags at start of each effect run
+        processedThisFrame.current.clear();
+
         const isJustPressed = (btn: string) => {
             if (!input.has(btn)) return false;
             if (prevInput.current.has(btn)) return false;
+            if (processedThisFrame.current.has(btn)) return false;
 
             // Debounce check
             const lastTime = lastProcessTime.current.get(btn) || 0;
             if (now - lastTime < INPUT_DEBOUNCE_MS) return false;
 
             lastProcessTime.current.set(btn, now);
+            processedThisFrame.current.add(btn);
             return true;
         };
 

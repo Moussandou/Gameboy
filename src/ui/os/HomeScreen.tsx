@@ -21,7 +21,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
             </div>
 
             {/* Scrollable Grid Layout */}
-            <div className="flex-1 pt-8 pb-2 px-3 overflow-y-auto">
+            <div className="flex-1 pt-8 pb-2 px-2 overflow-y-auto">
                 <div className="grid grid-cols-2 gap-2 w-full">
                     {paddedApps.map((app, index) => {
                         const isSelected = index === selectedIndex;
@@ -30,26 +30,26 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
                         return (
                             <div
                                 key={index}
-                                className={`aspect-square rounded-lg border-2 flex flex-col items-center justify-center relative transition-all duration-200 transform ${isSelected
+                                className={`rounded-lg border-2 flex flex-col items-center justify-center relative transition-all duration-200 transform ${isSelected
                                     ? 'border-[#5acbf7] shadow-[0_0_10px_rgba(90,203,247,0.5)] scale-105 bg-white z-10'
                                     : 'border-gray-300 bg-[#f9f9f9] shadow-inner scale-100 opacity-80'
                                     }`}
-                                style={{ maxHeight: '70px' }}
+                                style={{ height: '55px' }}
                             >
                                 {/* Hover Gloss Effect */}
                                 <div className="absolute inset-0 bg-gradient-to-b from-white/60 to-transparent rounded-lg pointer-events-none"></div>
 
                                 {!isPlaceholder ? (
                                     <>
-                                        <div className={`w-8 h-8 mb-0.5 transition-transform ${isSelected ? 'scale-110' : ''}`}>
+                                        <div className={`w-6 h-6 mb-0.5 transition-transform ${isSelected ? 'scale-110' : ''}`}>
                                             {app.icon}
                                         </div>
-                                        <div className="text-[8px] text-gray-600 font-bold tracking-tighter uppercase text-center px-1 truncate w-full">
+                                        <div className="text-[7px] text-gray-600 font-bold tracking-tighter uppercase text-center px-1 truncate w-full">
                                             {app.name}
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="opacity-10 text-lg font-bold text-gray-400">?</div>
+                                    <div className="opacity-10 text-sm font-bold text-gray-400">?</div>
                                 )}
 
                             </div>
