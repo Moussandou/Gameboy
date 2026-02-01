@@ -8,7 +8,7 @@ import { SystemProvider } from '../../../domain/os/SystemContext';
 import { OSContainer } from '../../os/OSContainer';
 
 export const GameboyEmulator: React.FC = () => {
-    const { data, resetCalibration } = useCalibration();
+    const { data } = useCalibration();
     const [pressedButtons, setPressedButtons] = useState<Set<string>>(new Set());
     const containerRef = useRef<HTMLDivElement>(null);
 

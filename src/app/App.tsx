@@ -1,10 +1,9 @@
 import React from 'react';
 import { CalibrationProvider, useCalibration } from '../domain/calibration/CalibrationContext';
-import { CalibrationOverlay } from '../ui/modules/calibration/CalibrationOverlay';
 import { GameboyEmulator } from '../ui/modules/gameboy/GameboyEmulator';
 
 const Main: React.FC = () => {
-  const { isCalibrated, currentSkin } = useCalibration();
+  const { currentSkin } = useCalibration();
 
   return (
     <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-neutral-900 md:p-8 overflow-hidden">
@@ -17,9 +16,9 @@ const Main: React.FC = () => {
           style={{ objectFit: 'fill' }}
         />
 
-        {/* Logic Switch - Absolute Overlay */}
+        {/* GameBoy Emulator - Always shown (auto-calibrated) */}
         <div className="absolute inset-0">
-          {isCalibrated ? <GameboyEmulator /> : <CalibrationOverlay />}
+          <GameboyEmulator />
         </div>
       </div>
     </div>

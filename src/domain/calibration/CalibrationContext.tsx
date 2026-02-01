@@ -28,29 +28,13 @@ const defaultState: CalibrationState = {
 const CalibrationContext = createContext<CalibrationState>(defaultState);
 
 export const CalibrationProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [data, setData] = useState<CalibrationData>({});
-    const [isCalibrated, setIsCalibrated] = useState(false);
+    // Auto-calibration: Always use default config (works on all screen sizes as values are percentages)
+    const [data, setData] = useState<CalibrationData>(DEFAULT_CALIBRATION);
+    const [isCalibrated, setIsCalibrated] = useState(true);
     const [currentSkin, setCurrentSkin] = useState<string>(AVAILABLE_SKINS[0].path);
 
     useEffect(() => {
-        // Load Calibration
-        const storedCalib = localStorage.getItem(STORAGE_KEY);
-        if (storedCalib) {
-            try {
-                const parsed = JSON.parse(storedCalib);
-                if (Object.keys(parsed).length > 0) {
-                    setData(parsed);
-                    setIsCalibrated(true);
-                }
-            } catch (e) {
-                console.error('Failed to parse calibration data', e);
-            }
-        } else if (Object.keys(DEFAULT_CALIBRATION).length > 0) {
-            setData(DEFAULT_CALIBRATION);
-            setIsCalibrated(true);
-        }
-
-        // Load Skin
+        // Load Skin preference only (calibration is automatic)
         const storedSkin = localStorage.getItem(SKIN_STORAGE_KEY);
         if (storedSkin) {
             setCurrentSkin(storedSkin);
