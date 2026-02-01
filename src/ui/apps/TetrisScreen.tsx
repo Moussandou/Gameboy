@@ -7,7 +7,7 @@ interface TetrisScreenProps {
 }
 
 export const TetrisScreen: React.FC<TetrisScreenProps> = ({ input }) => {
-    const { grid, piece, score, gameOver, isPlaying, COLS, ROWS } = useTetris(input);
+    const { grid, piece, score, level, gameOver, isPlaying, COLS, ROWS } = useTetris(input);
     const { theme } = useSystem();
     const isDark = theme === 'dark';
 
@@ -22,9 +22,11 @@ export const TetrisScreen: React.FC<TetrisScreenProps> = ({ input }) => {
                 style={{ backgroundImage: `linear-gradient(${gridColor} 1px, transparent 1px), linear-gradient(90deg, ${gridColor} 1px, transparent 1px)`, backgroundSize: '10px 10px' }}
             ></div>
 
-            {/* Score */}
+            {/* Score & Level */}
             <div className="absolute top-2 right-2 text-right z-10">
-                <div className="text-[8px] text-gray-500 font-bold tracking-widest">SCORE</div>
+                <div className="text-[8px] text-gray-500 font-bold tracking-widest">LEVEL</div>
+                <div className={`text-lg leading-none font-bold ${isDark ? 'text-purple-400' : 'text-purple-600'}`}>{level}</div>
+                <div className="text-[8px] text-gray-500 font-bold tracking-widest mt-1">SCORE</div>
                 <div className={`text-xl leading-none font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{score}</div>
             </div>
 

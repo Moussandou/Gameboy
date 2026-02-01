@@ -6,7 +6,6 @@ export type Point = { x: number; y: number };
 
 const GRID_W = 20;
 const GRID_H = 18;
-const INITIAL_SPEED = 150;
 
 export const useSnake = (input: Set<string>) => {
     const { submitScore } = useProfile();
@@ -105,10 +104,21 @@ export const useSnake = (input: Set<string>) => {
         setSnake(newSnake);
     }, [food, randomFood, submitScore]);
 
+    // Calculate speed based on score (progressive difficulty)
+    const getSpeed = useCallback(() => {
+        const baseSpeed = 150;
+        const minSpeed = 80;
+        const speedDecrease = Math.floor(scoreRef.current / 50) * 5;
+        return Math.max(minSpeed, baseSpeed - speedDecrease);
+    }, []);
+
     useEffect(() => {
-        const interval = setInterval(moveSnake, INITIAL_SPEED);
+        const tick = () => {
+            moveSnake();
+        };
+        const interval = setInterval(tick, getSpeed());
         return () => clearInterval(interval);
-    }, [moveSnake]);
+    }, [moveSnake, getSpeed, score]); // Re-create interval when score changes
 
     return { snake, food, gameOver, score, isRunning, grid: { w: GRID_W, h: GRID_H } };
 };

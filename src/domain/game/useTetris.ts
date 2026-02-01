@@ -33,6 +33,7 @@ export const useTetris = (input: Set<string>) => {
     const [grid, setGrid] = useState<string[][]>(Array(ROWS).fill(Array(COLS).fill(null)));
     const [piece, setPiece] = useState(randomTetromino());
     const [score, setScore] = useState(0);
+    const [level, setLevel] = useState(1);
     const [gameOver, setGameOver] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
 
@@ -84,9 +85,16 @@ export const useTetris = (input: Set<string>) => {
             }
         }
 
-        const newScore = score + (cleared * 100);
+        // Line clear bonuses (Tetris-style)
+        const lineBonus = [0, 100, 300, 500, 800];
+        const points = lineBonus[Math.min(cleared, 4)] * level;
+        const newScore = score + points;
         setScore(newScore);
         setGrid(newGrid);
+
+        // Level up every 1000 points
+        const newLevel = Math.floor(newScore / 1000) + 1;
+        if (newLevel > level) setLevel(newLevel);
 
         // Spawn new
         const newPiece = randomTetromino();
@@ -110,10 +118,10 @@ export const useTetris = (input: Set<string>) => {
             } else {
                 setPiece(nextPiece);
             }
-        }, 500); // Drop speed
+        }, Math.max(200, 500 - (level - 1) * 50)); // Drop speed increases with level
 
         return () => clearInterval(loop);
-    }, [isPlaying, gameOver, piece, grid, checkCollision, placePiece]);
+    }, [isPlaying, gameOver, piece, grid, checkCollision, placePiece, level]);
 
     // Input Handling
     useEffect(() => {
@@ -127,6 +135,7 @@ export const useTetris = (input: Set<string>) => {
                     setGrid(Array(ROWS).fill(Array(COLS).fill(null)));
                     setPiece(randomTetromino());
                     setScore(0);
+                    setLevel(1);
                     setGameOver(false);
                     setIsPlaying(true);
                 }, 0);
@@ -176,5 +185,5 @@ export const useTetris = (input: Set<string>) => {
         prevInput.current = new Set(input); // Update logic
     }, [input, piece, grid, isPlaying, gameOver, checkCollision, rotate]);
 
-    return { grid, piece, score, gameOver, isPlaying, COLS, ROWS };
+    return { grid, piece, score, level, gameOver, isPlaying, COLS, ROWS };
 };

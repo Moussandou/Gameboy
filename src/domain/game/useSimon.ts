@@ -16,8 +16,8 @@ interface SimonState {
 }
 
 const DIRECTIONS: SimonDirection[] = ['UP', 'DOWN', 'LEFT', 'RIGHT'];
-const SHOW_DELAY = 600; // ms between each sequence item
-const FLASH_DURATION = 400; // ms for button flash
+const SHOW_DELAY = 500; // ms between each sequence item
+const FLASH_DURATION = 350; // ms for button flash
 
 export const useSimon = (input: Set<string>): SimonState => {
     const { submitScore } = useProfile();
