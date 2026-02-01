@@ -83,17 +83,25 @@ export const OSContainer: React.FC<OSContainerProps> = ({ input, gameProps }) =>
     }
 
     if (status === 'HOME') {
-        return <HomeScreen apps={APPS} selectedIndex={selectedAppIndex} />;
+        return (
+            <div className="w-full h-full animate-fade-in">
+                <HomeScreen apps={APPS} selectedIndex={selectedAppIndex} />
+            </div>
+        );
     }
 
     if (status === 'APP_RUNNING' && currentAppId) {
         const App = APPS.find(a => a.id === currentAppId)?.component;
         if (App) {
-            if (currentAppId === 'snake') {
-                return <App {...gameProps} />;
-            }
-            // Pass input for apps that need it (Settings, Breakout)
-            return <App input={input} />;
+            return (
+                <div className="w-full h-full animate-zoom-in">
+                    {currentAppId === 'snake' ? (
+                        <App {...gameProps} />
+                    ) : (
+                        <App input={input} />
+                    )}
+                </div>
+            );
         }
     }
 
