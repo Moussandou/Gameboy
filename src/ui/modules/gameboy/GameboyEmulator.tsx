@@ -3,7 +3,9 @@ import { useCalibration } from '../../../domain/calibration/CalibrationContext';
 import { getPressedButton } from '../../../domain/input/logic';
 import { audioService } from '../../../infra/AudioService';
 import { useSnake } from '../../../domain/game/useSnake';
-import { GameScreen } from './GameScreen';
+import { SystemProvider } from '../../../domain/os/SystemContext';
+
+import { OSContainer } from '../../os/OSContainer';
 
 export const GameboyEmulator: React.FC = () => {
     const { data, resetCalibration } = useCalibration();
@@ -41,6 +43,19 @@ export const GameboyEmulator: React.FC = () => {
             }
         });
 
+        // Check if state actually changed to avoid re-renders
+        let changed = false;
+        if (newPressed.size !== pressedButtons.size) {
+            changed = true;
+        } else {
+            for (const btn of newPressed) {
+                if (!pressedButtons.has(btn)) {
+                    changed = true;
+                    break;
+                }
+            }
+        }
+
         // Detect new presses for sound
         newPressed.forEach(btn => {
             if (!pressedButtons.has(btn)) {
@@ -51,11 +66,15 @@ export const GameboyEmulator: React.FC = () => {
             }
         });
 
-        setPressedButtons(newPressed);
+        if (changed) {
+            setPressedButtons(newPressed);
+        }
     };
 
     const clearInput = () => {
-        setPressedButtons(new Set());
+        if (pressedButtons.size > 0) {
+            setPressedButtons(new Set());
+        }
     };
 
     const screenRect = data['SCREEN'];
@@ -93,7 +112,7 @@ export const GameboyEmulator: React.FC = () => {
             {/* Game Screen Content */}
             {screenRect && (
                 <div
-                    className="absolute bg-[#9bbc0f] overflow-hidden flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]"
+                    className="absolute bg-[#1a1a1a] overflow-hidden flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]"
                     style={{
                         left: `${screenRect.x * 100}%`,
                         top: `${screenRect.y * 100}%`,
@@ -101,10 +120,15 @@ export const GameboyEmulator: React.FC = () => {
                         height: `${screenRect.height * 100}%`,
                     }}
                 >
-                    <GameScreen {...gameState} />
+                    {/* Screen Content */}
+                    <div className="absolute inset-0 w-full h-full bg-[#eeeeee] overflow-hidden rounded-sm shadow-inner z-10">
+                        <SystemProvider>
+                            <OSContainer input={pressedButtons} gameProps={gameState} />
+                        </SystemProvider>
 
-                    {/* Scanlines Effect */}
-                    <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none" />
+                        {/* Screen Glare/Reflection */}
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,255,0,0.06))] z-10 bg-[length:100%_2px,3px_100%] pointer-events-none" />
+                    </div>
                 </div>
             )}
 
