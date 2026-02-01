@@ -38,15 +38,15 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
 
                                 {!isPlaceholder ? (
                                     <>
-                                        <div className="w-8 h-8 mb-0.5">
+                                        <div className="w-12 h-12 mb-1">
                                             {app.icon}
                                         </div>
-                                        <div className="text-[6px] text-gray-700 font-bold uppercase text-center leading-none">
+                                        <div className="text-[9px] text-gray-700 font-bold uppercase text-center leading-none">
                                             {app.name}
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="opacity-20 text-lg text-gray-400">?</div>
+                                    <div className="opacity-20 text-xl text-gray-400">?</div>
                                 )}
                             </div>
                         );
