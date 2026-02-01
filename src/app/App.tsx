@@ -9,15 +9,16 @@ const Main: React.FC = () => {
   const { currentSkin } = useCalibration();
 
   return (
-    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-[#e8e8e8] overflow-hidden relative">
+    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-transparent overflow-hidden relative">
       {/* Desktop Background - Wii Style Pattern */}
-      <div className="absolute inset-0 bg-[#e0e0e0] -z-20" />
+      <div className="absolute inset-0 bg-[#dcdcdc] -z-30 hidden md:block" />
       <div
-        className="absolute inset-0 opacity-[0.15] -z-10"
+        className="absolute inset-0 opacity-[0.4] -z-20 hidden md:block"
         style={{
-          backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50px)'
+          backgroundImage: 'repeating-linear-gradient(-45deg, transparent, transparent 4px, rgba(255,255,255,1) 4px, rgba(255,255,255,1) 6px)'
         }}
       />
+      <div className="absolute inset-0 bg-gradient-to-br from-black/5 via-transparent to-black/20 -z-10 hidden md:block" />
       <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-black/5 -z-10" />
 
       {/* Desktop Layout with Sidebars */}
