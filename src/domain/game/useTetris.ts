@@ -36,7 +36,8 @@ export const useTetris = (input: Set<string>) => {
 
     // Track input for discrete moves (prevent flying)
     const lastInputStep = useRef<number>(0);
-    const moveInterval = useRef<NodeJS.Timeout | null>(null);
+    // Track previous input for edge detection
+    const prevInput = useRef<Set<string>>(new Set());
 
     const checkCollision = (p: typeof piece, g: string[][]) => {
         for (let y = 0; y < p.shape.length; y++) {
@@ -112,42 +113,25 @@ export const useTetris = (input: Set<string>) => {
 
     // Input Handling
     useEffect(() => {
+        const isJustPressed = (btn: string) => input.has(btn) && !prevInput.current.has(btn);
+        const isHeld = (btn: string) => input.has(btn);
+
         if (!isPlaying || gameOver) {
-            if (input.has('START')) {
+            if (isJustPressed('START') || isJustPressed('A')) {
                 setGrid(Array(ROWS).fill(Array(COLS).fill(null)));
                 setPiece(randomTetromino());
                 setScore(0);
                 setGameOver(false);
                 setIsPlaying(true);
             }
+            prevInput.current = new Set(input);
             return;
         }
 
-        // Discrete movements
-        const now = Date.now();
-        if (now - lastInputStep.current < 100) return; // Input debounce for movement
-
+        // Action Buttons (Edge Triggered)
         let moved = false;
 
-        if (input.has('LEFT')) {
-            const next = { ...piece, x: piece.x - 1 };
-            if (!checkCollision(next, grid)) {
-                setPiece(next);
-                moved = true;
-            }
-        } else if (input.has('RIGHT')) {
-            const next = { ...piece, x: piece.x + 1 };
-            if (!checkCollision(next, grid)) {
-                setPiece(next);
-                moved = true;
-            }
-        } else if (input.has('DOWN')) {
-            const next = { ...piece, y: piece.y + 1 };
-            if (!checkCollision(next, grid)) {
-                setPiece(next);
-                moved = true;
-            }
-        } else if (input.has('A')) {
+        if (isJustPressed('A')) {
             // Rotate
             const next = rotate(piece);
             if (!checkCollision(next, grid)) {
@@ -156,8 +140,33 @@ export const useTetris = (input: Set<string>) => {
             }
         }
 
-        if (moved) lastInputStep.current = now;
+        // D-Pad (Continuous with limit)
+        const now = Date.now();
+        // Allow movement every 100ms
+        if (now - lastInputStep.current >= 100) {
+            if (isHeld('LEFT')) {
+                const next = { ...piece, x: piece.x - 1 };
+                if (!checkCollision(next, grid)) {
+                    setPiece(next);
+                    moved = true;
+                }
+            } else if (isHeld('RIGHT')) {
+                const next = { ...piece, x: piece.x + 1 };
+                if (!checkCollision(next, grid)) {
+                    setPiece(next);
+                    moved = true;
+                }
+            } else if (isHeld('DOWN')) {
+                const next = { ...piece, y: piece.y + 1 };
+                if (!checkCollision(next, grid)) {
+                    setPiece(next);
+                    moved = true;
+                }
+            }
+            if (moved) lastInputStep.current = now;
+        }
 
+        prevInput.current = new Set(input); // Update logic
     }, [input, piece, grid, isPlaying, gameOver]);
 
     return { grid, piece, score, gameOver, isPlaying, COLS, ROWS };
