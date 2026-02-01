@@ -3,7 +3,10 @@
 
 @layer base {
   body {
-    @apply bg-black overflow-hidden select-none;
+    background-color: black;
+    overflow: hidden;
+    user-select: none;
+    -webkit-user-select: none;
     touch-action: none;
     -webkit-tap-highlight-color: transparent;
   }
