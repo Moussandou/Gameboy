@@ -12,7 +12,7 @@ const BRICK_ROWS = 4;
 const BRICK_COLS = 8;
 const BRICK_WIDTH = GAME_WIDTH / BRICK_COLS;
 const BRICK_HEIGHT = 8;
-const INITIAL_BALL_SPEED = 2;
+const INITIAL_BALL_SPEED = 1.5;
 
 export interface Brick {
     x: number;
@@ -80,6 +80,7 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
     const livesRef = useRef(lives);
     const gameOverRef = useRef(gameOver);
     const isRunningRef = useRef(isRunning);
+    const inputRef = useRef<Set<string>>(new Set());
 
     useEffect(() => {
         paddleXRef.current = paddleX;
@@ -92,6 +93,11 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
         gameOverRef.current = gameOver;
         isRunningRef.current = isRunning;
     }, [paddleX, ballX, ballY, ballVX, ballVY, bricks, lives, gameOver, isRunning]);
+
+    // Keep inputRef synced
+    useEffect(() => {
+        inputRef.current = input;
+    }, [input]);
 
     const resetBall = useCallback(() => {
         setBallX(GAME_WIDTH / 2);
@@ -111,36 +117,32 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
         setIsRunning(true);
     }, [resetBall]);
 
-    // Input Handling
+    // Input Handling (Start/Restart only)
     useEffect(() => {
         if (gameOverRef.current || !isRunningRef.current) {
             if (input.has('A') || input.has('START')) {
-                const timeout = setTimeout(() => {
+                setTimeout(() => {
                     if (gameOverRef.current) {
                         resetGame();
                     } else {
                         setIsRunning(true);
                     }
                 }, 0);
-                return () => clearTimeout(timeout);
             }
-            return;
         }
-
-        const timeout = setTimeout(() => {
-            if (input.has('LEFT')) {
-                setPaddleX(prev => Math.max(0, prev - PADDLE_SPEED));
-            }
-            if (input.has('RIGHT')) {
-                setPaddleX(prev => Math.min(GAME_WIDTH - PADDLE_WIDTH, prev + PADDLE_SPEED));
-            }
-        }, 0);
-        return () => clearTimeout(timeout);
     }, [input, resetGame]);
 
     // Game Loop
     const gameLoop = useCallback(() => {
         if (gameOverRef.current || !isRunningRef.current) return;
+
+        // Handle paddle movement (continuous)
+        if (inputRef.current.has('LEFT')) {
+            setPaddleX(prev => Math.max(0, prev - PADDLE_SPEED));
+        }
+        if (inputRef.current.has('RIGHT')) {
+            setPaddleX(prev => Math.min(GAME_WIDTH - PADDLE_WIDTH, prev + PADDLE_SPEED));
+        }
 
         let newBallX = ballXRef.current + ballVXRef.current;
         let newBallY = ballYRef.current + ballVYRef.current;
