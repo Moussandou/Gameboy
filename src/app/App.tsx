@@ -1,6 +1,7 @@
 import React from 'react';
 import { CalibrationProvider, useCalibration } from '../domain/calibration/CalibrationContext';
 import { GameboyEmulator } from '../ui/modules/gameboy/GameboyEmulator';
+import { LeftSidebar, RightSidebar } from '../ui/components/DesktopSidebar';
 
 const Main: React.FC = () => {
   const { currentSkin } = useCalibration();
@@ -19,23 +20,32 @@ const Main: React.FC = () => {
         }}
       />
 
-      {/* Container - Full screen on mobile, constrained on desktop */}
-      <div
-        className="relative flex items-center justify-center w-full h-full md:h-auto md:w-auto overflow-hidden md:shadow-2xl md:rounded-3xl z-10"
-        style={{ maxHeight: '100vh' }}
-      >
-        {/* Background Image - drives dimensions */}
-        <img
-          src={currentSkin}
-          alt="GameBoy Background"
-          className="block w-full h-full md:w-auto md:h-[90vh] md:max-h-[900px] select-none pointer-events-none touch-none md:object-contain"
-          style={{ objectFit: 'fill' }}
-        />
+      {/* Desktop Layout with Sidebars */}
+      <div className="relative z-10 flex items-center justify-center h-full w-full">
+        {/* Left Sidebar - Desktop only */}
+        <LeftSidebar />
 
-        {/* GameBoy Emulator - Always shown (auto-calibrated) */}
-        <div className="absolute inset-0">
-          <GameboyEmulator />
+        {/* Container - Full screen on mobile, constrained on desktop */}
+        <div
+          className="relative flex items-center justify-center w-full h-full md:h-auto md:w-auto overflow-hidden md:shadow-2xl md:rounded-3xl"
+          style={{ maxHeight: '100vh' }}
+        >
+          {/* Background Image - drives dimensions */}
+          <img
+            src={currentSkin}
+            alt="GameBoy Background"
+            className="block w-full h-full md:w-auto md:h-[90vh] md:max-h-[900px] select-none pointer-events-none touch-none md:object-contain"
+            style={{ objectFit: 'fill' }}
+          />
+
+          {/* GameBoy Emulator - Always shown (auto-calibrated) */}
+          <div className="absolute inset-0">
+            <GameboyEmulator />
+          </div>
         </div>
+
+        {/* Right Sidebar - Desktop only */}
+        <RightSidebar />
       </div>
     </div>
   );
