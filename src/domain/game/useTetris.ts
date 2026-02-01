@@ -105,7 +105,7 @@ export const useTetris = (input: Set<string>) => {
         } else {
             setPiece(newPiece);
         }
-    }, [grid, piece, checkCollision, score, submitScore]);
+    }, [grid, piece, checkCollision, score, submitScore, level]);
 
     // Game Loop
     useEffect(() => {
