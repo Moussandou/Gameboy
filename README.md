@@ -1,73 +1,86 @@
-# React + TypeScript + Vite
+# 🎮 GameBoy Online (Daily Website - Day 1)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[![Deploy to Firebase Hosting](https://github.com/Moussandou/Gameboy/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/Moussandou/Gameboy/actions/workflows/firebase-hosting-merge.yml)
+[![Live Demo](https://img.shields.io/badge/demo-live-green)](https://gameboy-moussandou.web.app)
 
-Currently, two official plugins are available:
+A premium, interactive GameBoy emulator experience built with **React**, **TypeScript**, and **Tailwind CSS**. This project features a curated "Wii/3DS" desktop aesthetic and is fully optimized for both desktop and mobile devices.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![Project Preview](public/preview.png) *(Note: Add a real preview image to public folder if available)*
 
-## React Compiler
+## ✨ Features
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **🕹️ Multi-Game Library**: Includes fully playable versions of Tetris, Snake, Simon, and Breakout.
+- **🎨 Premium Skins**: Multiple high-quality GameBoy skins with real-time switching.
+- **📱 Mobile Optimized**: Full touch support with a custom calibration system that adapts to any screen size.
+- **🖥️ Desktop Plus**: A "Wii/3DS" inspired sidebar redesign with keyboard controls, tech stack info, and project status.
+- **⚙️ System Apps**: Dedicated "Settings" app to control volume, brightness, and skins directly from the GameBoy OS.
+- **🔄 CI/CD Powered**: Automated type checking, linting, and deployment via GitHub Actions and Firebase Hosting.
 
-## Expanding the ESLint configuration
+## 🛠️ Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Core**: React 18 + TypeScript
+- **Styling**: Tailwind CSS (Mobile-first, Glassmorphism, Console Aesthetics)
+- **Build Tool**: Vite (Lightning-fast HMR)
+- **State Management**: React Context (System & Calibration)
+- **Deployment**: Firebase Hosting
+- **CI/CD**: GitHub Actions
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🚀 Getting Started
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Prerequisites
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [Node.js](https://nodejs.org/) (v18 or higher)
+- [npm](https://www.npmjs.com/)
+
+### Installation
+
+1. **Clone the repository**:
+   ```bash
+   git clone git@github.com:Moussandou/Gameboy.git
+   cd gameboy-app
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+4. **Build for production**:
+   ```bash
+   npm run build
+   ```
+
+## 📂 Project Structure
+
+```text
+src/
+├── app/          # Main entry and global providers
+├── domain/       # Business logic, hooks, and context (Game logic, OS state)
+├── infra/        # Infrastructure (Audio service, etc.)
+├── ui/           # Components, apps, and module layouts
+│   ├── apps/     # GameBoy OS applications (Settings, Credits, etc.)
+│   ├── modules/  # Core GameBoy emulation and layout
+│   └── components/ # Reusable UI components (Sidebars, Buttons)
+└── index.css     # Global styles and Tailwind layers
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🔧 CI/CD Pipeline
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Every push to the `main` branch undergoes:
+1. **TypeScript Verification**: `tsc --noEmit`
+2. **Linting**: `eslint .`
+3. **Production Build**: `npm run build`
+4. **Auto-Deployment**: Live to [Firebase Hosting](https://gameboy-moussandou.web.app).
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 📄 License
+
+This project is part of a "Daily Website" challenge series. Feel free to use it for inspiration!
+
+---
+Created with ❤️ by Moussandou
+
