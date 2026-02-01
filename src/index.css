@@ -1,11 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
 @import "tailwindcss";
 
 @layer base {
   body {
-    background-color: black;
-    overflow: hidden;
+    @apply bg-black overflow-hidden select-none;
     touch-action: none;
-    user-select: none;
     -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@layer utilities {
+  .animate-zoom-in {
+    animation: zoomIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.4s ease-out forwards;
+  }
+
+  .font-jersey {
+    font-family: 'Jersey 10', sans-serif;
+  }
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }

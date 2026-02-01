@@ -8,6 +8,8 @@ import { BreakoutScreen } from '../apps/BreakoutScreen';
 import { SimonScreen } from '../apps/SimonScreen';
 import type { AppConfig } from '../../domain/os/types';
 
+import { ClockApp } from '../apps/ClockApp';
+
 // App Registry
 const APPS: AppConfig[] = [
     {
@@ -54,6 +56,17 @@ const APPS: AppConfig[] = [
             </svg>
         ),
         component: SimonScreen
+    },
+    {
+        id: 'clock',
+        name: 'Clock',
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full text-blue-500">
+                <circle cx="12" cy="12" r="10" />
+                <polyline points="12 6 12 12 16 14" />
+            </svg>
+        ),
+        component: ClockApp
     },
 ];
 
