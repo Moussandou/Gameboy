@@ -6,14 +6,18 @@ const Main: React.FC = () => {
   const { currentSkin } = useCalibration();
 
   return (
-    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-neutral-900 md:p-8 overflow-hidden">
-      <div className="relative flex items-center justify-center w-full h-full md:w-auto md:h-auto md:shadow-2xl md:rounded-3xl overflow-hidden">
+    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-neutral-900 overflow-hidden">
+      {/* Container - Full screen on mobile, constrained on desktop */}
+      <div
+        className="relative flex items-center justify-center w-full h-full md:h-auto md:w-auto overflow-hidden md:shadow-2xl md:rounded-3xl"
+        style={{ maxHeight: '100vh' }}
+      >
         {/* Background Image - drives dimensions */}
         <img
           src={currentSkin}
           alt="GameBoy Background"
-          className="block w-full h-full select-none pointer-events-none touch-none"
-          style={{ objectFit: 'fill' }}
+          className="block w-full h-full md:w-auto md:h-[90vh] md:max-h-[900px] select-none pointer-events-none touch-none"
+          style={{ objectFit: 'contain' }}
         />
 
         {/* GameBoy Emulator - Always shown (auto-calibrated) */}
