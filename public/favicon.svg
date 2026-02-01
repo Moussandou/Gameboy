@@ -1,0 +1,15 @@
+<svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main Container: rounded square, white bg, dark border -->
+  <rect x="2" y="2" width="60" height="60" rx="16" fill="white" stroke="#555555" stroke-width="4"/>
+  
+  <!-- Inner Grid: 2x2 squares -->
+  <!-- Centered calculation: 
+       Total size 64. 
+       Grid total width approx 34px (14+6+14). 
+       Start x = (64 - 34)/2 = 15. 
+  -->
+  <rect x="15" y="15" width="14" height="14" rx="2" fill="#555555"/>
+  <rect x="35" y="15" width="14" height="14" rx="2" fill="#555555"/>
+  <rect x="15" y="35" width="14" height="14" rx="2" fill="#555555"/>
+  <rect x="35" y="35" width="14" height="14" rx="2" fill="#555555"/>
+</svg>
