@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { OSState, AppId } from './types';
+import { getAppCount, getAppIds } from './appRegistry';
 
 const INPUT_COOLDOWN_MS = 180;
 
@@ -52,7 +53,7 @@ export const useOS = (input: Set<string>) => {
 
         if (status === 'HOME') {
             const COLS = 2;
-            const TOTAL_APPS = 7;
+            const TOTAL_APPS = getAppCount(); // Dynamic!
 
             if (btn === 'RIGHT') {
                 setSelectedAppIndex(prev => {
@@ -69,7 +70,7 @@ export const useOS = (input: Set<string>) => {
             } else if (btn === 'UP') {
                 setSelectedAppIndex(prev => Math.max(prev - COLS, 0));
             } else if (btn === 'A') {
-                const apps: AppId[] = ['snake', 'settings', 'breakout', 'simon', 'clock', 'tetris', 'credits'];
+                const apps = getAppIds(); // Dynamic!
                 const selectedId = apps[selectedAppIndex];
                 if (selectedId) {
                     setCurrentAppId(selectedId);
@@ -95,5 +96,3 @@ export const useOS = (input: Set<string>) => {
         selectedAppIndex,
     };
 };
-
-
