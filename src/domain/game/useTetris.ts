@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const COLS = 10;
 const ROWS = 18; // Slightly shorter for GameBoy screen aspect

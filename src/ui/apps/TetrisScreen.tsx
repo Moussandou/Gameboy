@@ -1,4 +1,4 @@
-import React, { SetStateAction, Dispatch } from 'react';
+import React from 'react';
 import { useTetris } from '../../domain/game/useTetris';
 
 interface TetrisScreenProps {
