@@ -18,9 +18,32 @@ export const GameboyEmulator: React.FC = () => {
     const handleInput = (e: React.TouchEvent | React.MouseEvent) => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
+        const screenRect = data['SCREEN'];
 
-        // Prevent ghost mouse events and default browser behavior (scrolling/zooming)
-        if (e.cancelable) {
+        // Check if any point of this event is on the screen
+        let isTouchOnScreen = false;
+        if ('touches' in e) {
+            for (let i = 0; i < e.touches.length; i++) {
+                const x = (e.touches[i].clientX - rect.left) / rect.width;
+                const y = (e.touches[i].clientY - rect.top) / rect.height;
+                if (screenRect && x >= screenRect.x && x <= screenRect.x + screenRect.width &&
+                    y >= screenRect.y && y <= screenRect.y + screenRect.height) {
+                    isTouchOnScreen = true;
+                    break;
+                }
+            }
+        } else {
+            const x = (e.clientX - rect.left) / rect.width;
+            const y = (e.clientY - rect.top) / rect.height;
+            if (screenRect && x >= screenRect.x && x <= screenRect.x + screenRect.width &&
+                y >= screenRect.y && y <= screenRect.y + screenRect.height) {
+                isTouchOnScreen = true;
+            }
+        }
+
+        // Prevent default only if touch is NOT on screen (to avoid scrolling while playing)
+        // If it IS on screen, we want to allow standard interaction
+        if (!isTouchOnScreen && e.cancelable) {
             e.preventDefault();
         }
 
@@ -85,25 +108,40 @@ export const GameboyEmulator: React.FC = () => {
     const [audioStarted, setAudioStarted] = useState(false);
 
     useEffect(() => {
-        // Attach non-passive listener to prevent Default
         const container = containerRef.current;
         if (!container) return;
 
-        const preventDefault = (e: TouchEvent) => {
-            if (e.cancelable) e.preventDefault();
+        const handleTouch = (e: TouchEvent) => {
+            const rect = container.getBoundingClientRect();
+            const screenRect = data['SCREEN'];
+
+            // If any touch is outside the screen, we prevent default to avoid scrolling/zooming
+            // If all touches are inside the screen, we allow default for interactivity
+            let touchOutsideScreen = false;
+            for (let i = 0; i < e.touches.length; i++) {
+                const x = (e.touches[i].clientX - rect.left) / rect.width;
+                const y = (e.touches[i].clientY - rect.top) / rect.height;
+                if (!screenRect || x < screenRect.x || x > screenRect.x + screenRect.width ||
+                    y < screenRect.y || y > screenRect.y + screenRect.height) {
+                    touchOutsideScreen = true;
+                    break;
+                }
+            }
+
+            if (touchOutsideScreen && e.cancelable) {
+                e.preventDefault();
+            }
         };
 
-        // We need non-passive to call preventDefault
-        container.addEventListener('touchstart', preventDefault, { passive: false });
-        container.addEventListener('touchmove', preventDefault, { passive: false });
-        container.addEventListener('touchend', preventDefault, { passive: false });
+        container.addEventListener('touchstart', handleTouch, { passive: false });
+        container.addEventListener('touchmove', handleTouch, { passive: false });
+        // touchend usually doesn't need preventDefault for scrolling/zooming
 
         return () => {
-            container.removeEventListener('touchstart', preventDefault);
-            container.removeEventListener('touchmove', preventDefault);
-            container.removeEventListener('touchend', preventDefault);
+            container.removeEventListener('touchstart', handleTouch);
+            container.removeEventListener('touchmove', handleTouch);
         };
-    }, []);
+    }, [data['SCREEN']]);
 
     // Keyboard Support
     useEffect(() => {
@@ -182,11 +220,11 @@ export const GameboyEmulator: React.FC = () => {
     return (
         <div
             ref={containerRef}
-            className="absolute inset-0 z-10 touch-none select-none"
+            className="absolute inset-0 z-10 select-none"
             onTouchStart={handleInput}
             onTouchMove={handleInput}
             onTouchEnd={handleInput}
-            onMouseDown={handleInput} // For debugging on desktop
+            onMouseDown={handleInput}
             onMouseMove={(e) => { if (e.buttons === 1) handleInput(e); }}
             onMouseUp={clearInput}
         >
@@ -221,7 +259,7 @@ export const GameboyEmulator: React.FC = () => {
                     }}
                 >
                     {/* Screen Content */}
-                    <div className="absolute inset-0 w-full h-full bg-[#eeeeee] overflow-hidden rounded-sm shadow-inner z-10">
+                    <div className="absolute inset-0 w-full h-full bg-[#eeeeee] overflow-hidden rounded-sm shadow-inner z-10 pointer-events-auto">
                         <SystemProvider>
                             <OSContainer input={pressedButtons} gameProps={gameState} />
                         </SystemProvider>
