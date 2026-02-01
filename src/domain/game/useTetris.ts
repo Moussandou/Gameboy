@@ -154,7 +154,7 @@ export const useTetris = (input: Set<string>) => {
             if (isHeld('LEFT')) {
                 const next = { ...piece, x: piece.x - 1 };
                 if (!checkCollision(next, grid)) {
-                    setPiece(next);
+                    setTimeout(() => setPiece(next), 0);
                     moved = true;
                 }
             } else if (isHeld('RIGHT')) {
@@ -166,7 +166,7 @@ export const useTetris = (input: Set<string>) => {
             } else if (isHeld('DOWN')) {
                 const next = { ...piece, y: piece.y + 1 };
                 if (!checkCollision(next, grid)) {
-                    setPiece(next);
+                    setTimeout(() => setPiece(next), 0);
                     moved = true;
                 }
             }

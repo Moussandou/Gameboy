@@ -106,15 +106,15 @@ export const ProfileApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
 
             // Switch Tabs
             if (isJustPressed('RIGHT')) {
-                setPage(p => p === 'INFO' ? 'ACHIEVEMENTS' : p === 'ACHIEVEMENTS' ? 'SCORES' : 'INFO');
+                setTimeout(() => setPage(p => p === 'INFO' ? 'ACHIEVEMENTS' : p === 'ACHIEVEMENTS' ? 'SCORES' : 'INFO'), 0);
             }
             if (isJustPressed('LEFT')) {
-                setPage(p => p === 'SCORES' ? 'ACHIEVEMENTS' : p === 'ACHIEVEMENTS' ? 'INFO' : 'SCORES');
+                setTimeout(() => setPage(p => p === 'SCORES' ? 'ACHIEVEMENTS' : p === 'ACHIEVEMENTS' ? 'INFO' : 'SCORES'), 0);
             }
 
             // Enter Edit Mode (Info Page Only)
             if (page === 'INFO' && (isJustPressed('A') || isJustPressed('START'))) {
-                setIsEditing(true);
+                setTimeout(() => setIsEditing(true), 0);
             }
         }
 
