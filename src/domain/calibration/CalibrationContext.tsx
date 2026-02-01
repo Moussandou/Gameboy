@@ -10,7 +10,6 @@ export const AVAILABLE_SKINS = [
     { id: 'original', name: 'Original', path: '/gb_bg.jpg' },
     { id: 'pikachu', name: 'Pikachu', path: '/skins/pikachu.jpg' },
     { id: 'lugia', name: 'Lugia', path: '/skins/lugia.jpg' },
-    { id: 'stickers', name: 'Stickers', path: '/skins/stickers.jpg' },
     { id: 'mew', name: 'Mew', path: '/skins/mew.jpg' },
 ];
 
