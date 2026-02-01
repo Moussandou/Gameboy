@@ -19,7 +19,10 @@ export const GameboyEmulator: React.FC = () => {
         if (!containerRef.current) return;
         const rect = containerRef.current.getBoundingClientRect();
 
-        // e.preventDefault(); // Prevent default browser scrolling/zooming
+        // Prevent ghost mouse events and default browser behavior (scrolling/zooming)
+        if (e.cancelable) {
+            e.preventDefault();
+        }
 
         const newPressed = new Set<string>();
         const points: { x: number; y: number }[] = [];
