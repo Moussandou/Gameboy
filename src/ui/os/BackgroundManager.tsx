@@ -2,7 +2,8 @@ import React from 'react';
 import { useSystem } from '../../domain/os/SystemContext';
 
 export const BackgroundManager: React.FC<{ className?: string }> = ({ className = "fixed inset-0 -z-30" }) => {
-    const { wallpaper } = useSystem();
+    const { wallpaper, theme } = useSystem();
+    const isDark = theme === 'dark';
 
     // Base background layer
     const renderBackground = () => {
@@ -56,9 +57,14 @@ export const BackgroundManager: React.FC<{ className?: string }> = ({ className 
             case 'default':
             default:
                 return (
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#1a1a1a] to-[#2c2c2c]">
+                    <div className={`absolute inset-0 bg-gradient-to-br ${isDark ? 'from-[#1a1a1a] to-[#2c2c2c]' : 'from-[#f8f9fa] to-[#e9ecef]'}`}>
                         {/* Subtle noise or pattern */}
-                        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")` }}></div>
+                        <div
+                            className="absolute inset-0 opacity-[0.03]"
+                            style={{
+                                backgroundImage: `url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='${isDark ? '%23ffffff' : '%23000000'}' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")`
+                            }}
+                        ></div>
                     </div>
                 );
         }
