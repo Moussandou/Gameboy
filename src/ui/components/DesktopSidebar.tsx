@@ -196,6 +196,14 @@ export const RightSidebar: React.FC = () => {
                     </p>
                 </div>
             </div>
+
+            {/* Legal Disclaimer */}
+            <div className="bg-amber-50 rounded-xl p-3 border border-amber-200/60">
+                <p className="text-[9px] text-amber-700 leading-relaxed text-center">
+                    <span className="font-bold">Fan Project</span> — Not affiliated with Nintendo.
+                    All trademarks belong to their respective owners.
+                </p>
+            </div>
         </div>
     );
 };

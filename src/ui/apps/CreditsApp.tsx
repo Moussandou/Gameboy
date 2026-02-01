@@ -73,6 +73,17 @@ export const CreditsApp: React.FC<{ input?: Set<string> }> = () => {
 
                 {/* Version */}
                 <p className="mt-2 text-gray-400 text-[8px]">v1.0.0 © 2026</p>
+
+                {/* Legal Disclaimer */}
+                <div className={`mt-3 mx-2 p-2 rounded-lg border text-[7px] leading-relaxed ${isDark ? 'bg-[#0a0a0a] border-[#222] text-gray-500' : 'bg-gray-50 border-gray-200 text-gray-400'}`}>
+                    <p className="font-bold uppercase tracking-wider mb-1">Disclaimer</p>
+                    <p>
+                        This is a <span className="font-bold">fan-made portfolio project</span> for educational purposes only.
+                        Not affiliated with, endorsed, or sponsored by Nintendo.
+                        All trademarks and copyrights belong to their respective owners.
+                        No commercial use intended.
+                    </p>
+                </div>
             </div>
 
             {/* Hint */}
