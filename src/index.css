@@ -21,6 +21,15 @@
   .font-jersey {
     font-family: 'Jersey 10', sans-serif;
   }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
 
 @keyframes zoomIn {
