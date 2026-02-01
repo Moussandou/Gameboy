@@ -20,8 +20,8 @@ export const LeftSidebar: React.FC = () => {
         <div className="hidden lg:flex flex-col gap-4 w-64 h-full p-4">
             {/* Keyboard Controls */}
             <div className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg border border-gray-200">
-                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider flex items-center gap-2">
-                    <span className="text-lg">🎮</span> CONTROLS
+                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider">
+                    CONTROLS
                 </h3>
                 <div className="space-y-2 text-xs text-gray-500">
                     <div className="flex justify-between items-center">
@@ -54,8 +54,8 @@ export const LeftSidebar: React.FC = () => {
 
             {/* Games List */}
             <div className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg border border-gray-200 flex-1">
-                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider flex items-center gap-2">
-                    <span className="text-lg">🕹️</span> GAMES
+                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider">
+                    GAMES
                 </h3>
                 <div className="space-y-2">
                     {APP_REGISTRY.filter(app => !['settings', 'clock', 'credits'].includes(app.id)).map(app => (
@@ -90,8 +90,8 @@ export const RightSidebar: React.FC = () => {
         <div className="hidden lg:flex flex-col gap-4 w-64 h-full p-4">
             {/* Profile Card */}
             <div className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg border border-gray-200">
-                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider flex items-center gap-2">
-                    <span className="text-lg">👤</span> DEVELOPER
+                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider">
+                    DEVELOPER
                 </h3>
                 <div className="text-center">
                     <div className="w-16 h-16 mx-auto mb-2 bg-gradient-to-br from-[#5acbf7] to-blue-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg">
@@ -130,8 +130,8 @@ export const RightSidebar: React.FC = () => {
 
             {/* Clock */}
             <div className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg border border-gray-200">
-                <h3 className="text-sm font-bold text-gray-600 mb-2 tracking-wider flex items-center gap-2">
-                    <span className="text-lg">🕐</span> TIME
+                <h3 className="text-sm font-bold text-gray-600 mb-2 tracking-wider">
+                    TIME
                 </h3>
                 <div className="text-center">
                     <p className="text-3xl font-bold text-gray-700 font-mono">
@@ -145,13 +145,13 @@ export const RightSidebar: React.FC = () => {
 
             {/* System Status */}
             <div className="bg-white/90 backdrop-blur rounded-2xl p-4 shadow-lg border border-gray-200">
-                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider flex items-center gap-2">
-                    <span className="text-lg">📊</span> STATUS
+                <h3 className="text-sm font-bold text-gray-600 mb-3 tracking-wider">
+                    STATUS
                 </h3>
                 <div className="space-y-3">
                     <div>
                         <div className="flex justify-between text-xs text-gray-500 mb-1">
-                            <span>🔋 Battery</span>
+                            <span>Battery</span>
                             <span>100%</span>
                         </div>
                         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
@@ -160,7 +160,7 @@ export const RightSidebar: React.FC = () => {
                     </div>
                     <div>
                         <div className="flex justify-between text-xs text-gray-500 mb-1">
-                            <span>🔊 Volume</span>
+                            <span>Volume</span>
                             <span>80%</span>
                         </div>
                         <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
