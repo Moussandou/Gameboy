@@ -10,8 +10,15 @@ const Main: React.FC = () => {
 
   return (
     <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-[#e8e8e8] overflow-hidden relative">
-      {/* Desktop Background - Elaborate pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#d4d4d4] to-[#f4f4f4] -z-10" />
+      {/* Desktop Background - Wii Style Pattern */}
+      <div className="absolute inset-0 bg-[#e0e0e0] -z-20" />
+      <div
+        className="absolute inset-0 opacity-[0.15] -z-10"
+        style={{
+          backgroundImage: 'repeating-linear-gradient(45deg, #000 0, #000 1px, transparent 0, transparent 50px)'
+        }}
+      />
+      <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-black/5 -z-10" />
 
       {/* Desktop Layout with Sidebars */}
       <div className="relative z-10 flex items-center justify-center h-full w-full">
