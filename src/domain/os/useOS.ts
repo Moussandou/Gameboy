@@ -1,75 +1,74 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import type { OSState, AppId } from './types';
 
-const INPUT_DEBOUNCE_MS = 200; // Minimum ms between processing same button
+const INPUT_COOLDOWN_MS = 180;
 
 export const useOS = (input: Set<string>) => {
     const [status, setStatus] = useState<OSState>('BOOT');
     const [currentAppId, setCurrentAppId] = useState<AppId | null>(null);
     const [selectedAppIndex, setSelectedAppIndex] = useState(0);
 
-    // Track previous input to detect "new" presses (rising edge)
-    const prevInput = useRef<Set<string>>(new Set());
-    // Track last process time per button to debounce
-    const lastProcessTime = useRef<Map<string, number>>(new Map());
-    // Track if we already processed this frame
-    const processedThisFrame = useRef<Set<string>>(new Set());
+    // Track which buttons were pressed last frame
+    const prevInputRef = useRef<Set<string>>(new Set());
+    // Track last action time per button
+    const lastActionTime = useRef<Map<string, number>>(new Map());
 
     // Boot Sequence
     useEffect(() => {
         if (status === 'BOOT') {
             const timer = setTimeout(() => {
                 setStatus('HOME');
-            }, 3500); // 3.5s boot time
+            }, 3500);
             return () => clearTimeout(timer);
         }
     }, [status]);
 
-    // Input Handling
-    useEffect(() => {
+    // Memoized action handler
+    const handleInput = useCallback(() => {
         const now = Date.now();
+        const prevInput = prevInputRef.current;
 
-        // Clear processed flags at start of each effect run
-        processedThisFrame.current.clear();
+        // Find newly pressed buttons (in input but NOT in prevInput)
+        const newlyPressed: string[] = [];
+        input.forEach(btn => {
+            if (!prevInput.has(btn)) {
+                // Check cooldown
+                const lastTime = lastActionTime.current.get(btn) || 0;
+                if (now - lastTime >= INPUT_COOLDOWN_MS) {
+                    newlyPressed.push(btn);
+                    lastActionTime.current.set(btn, now);
+                }
+            }
+        });
 
-        const isJustPressed = (btn: string) => {
-            if (!input.has(btn)) return false;
-            if (prevInput.current.has(btn)) return false;
-            if (processedThisFrame.current.has(btn)) return false;
+        // Update prevInput AFTER checking
+        prevInputRef.current = new Set(input);
 
-            // Debounce check
-            const lastTime = lastProcessTime.current.get(btn) || 0;
-            if (now - lastTime < INPUT_DEBOUNCE_MS) return false;
+        // If no new presses, do nothing
+        if (newlyPressed.length === 0) return;
 
-            lastProcessTime.current.set(btn, now);
-            processedThisFrame.current.add(btn);
-            return true;
-        };
+        // Process only the first new press to avoid multiple actions
+        const btn = newlyPressed[0];
 
         if (status === 'HOME') {
-            const COLS = 2; // 2 Columns for the grid
-            const TOTAL_APPS = 4; // Snake, Settings, Breakout, Simon
+            const COLS = 2;
+            const TOTAL_APPS = 4;
 
-            if (isJustPressed('RIGHT')) {
+            if (btn === 'RIGHT') {
                 setSelectedAppIndex(prev => {
-                    if (prev % COLS === COLS - 1) return prev; // End of row
+                    if (prev % COLS === COLS - 1) return prev;
                     return Math.min(prev + 1, TOTAL_APPS - 1);
                 });
-            }
-            if (isJustPressed('LEFT')) {
+            } else if (btn === 'LEFT') {
                 setSelectedAppIndex(prev => {
-                    if (prev % COLS === 0) return prev; // Start of row
+                    if (prev % COLS === 0) return prev;
                     return Math.max(prev - 1, 0);
                 });
-            }
-            if (isJustPressed('DOWN')) {
+            } else if (btn === 'DOWN') {
                 setSelectedAppIndex(prev => Math.min(prev + COLS, TOTAL_APPS - 1));
-            }
-            if (isJustPressed('UP')) {
+            } else if (btn === 'UP') {
                 setSelectedAppIndex(prev => Math.max(prev - COLS, 0));
-            }
-
-            if (isJustPressed('A')) {
+            } else if (btn === 'A') {
                 const apps: AppId[] = ['snake', 'settings', 'breakout', 'simon'];
                 const selectedId = apps[selectedAppIndex];
                 if (selectedId) {
@@ -78,15 +77,17 @@ export const useOS = (input: Set<string>) => {
                 }
             }
         } else if (status === 'APP_RUNNING') {
-            if (isJustPressed('SELECT')) {
+            if (btn === 'SELECT') {
                 setStatus('HOME');
                 setCurrentAppId(null);
             }
         }
-
-        // Update previous input for the next cycle
-        prevInput.current = new Set(input);
     }, [input, status, selectedAppIndex]);
+
+    // Run on input change
+    useEffect(() => {
+        handleInput();
+    }, [handleInput]);
 
     return {
         status,
@@ -94,4 +95,5 @@ export const useOS = (input: Set<string>) => {
         selectedAppIndex,
     };
 };
+
 
