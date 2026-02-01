@@ -55,6 +55,11 @@ class AudioService {
         osc.start(t);
         osc.stop(t + 0.05);
     }
+    resume() {
+        if (this.context && this.context.state === 'suspended') {
+            this.context.resume();
+        }
+    }
 }
 
 export const audioService = new AudioService();

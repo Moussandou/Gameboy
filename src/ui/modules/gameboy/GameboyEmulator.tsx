@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useCalibration } from '../../../domain/calibration/CalibrationContext';
 import { getPressedButton } from '../../../domain/input/logic';
 import { audioService } from '../../../infra/AudioService';
@@ -81,6 +81,45 @@ export const GameboyEmulator: React.FC = () => {
     };
 
     const screenRect = data['SCREEN'];
+
+    const [audioStarted, setAudioStarted] = useState(false);
+
+    useEffect(() => {
+        // Attach non-passive listener to prevent Default
+        const container = containerRef.current;
+        if (!container) return;
+
+        const preventDefault = (e: TouchEvent) => {
+            if (e.cancelable) e.preventDefault();
+        };
+
+        // We need non-passive to call preventDefault
+        container.addEventListener('touchstart', preventDefault, { passive: false });
+        container.addEventListener('touchmove', preventDefault, { passive: false });
+        container.addEventListener('touchend', preventDefault, { passive: false });
+
+        return () => {
+            container.removeEventListener('touchstart', preventDefault);
+            container.removeEventListener('touchmove', preventDefault);
+            container.removeEventListener('touchend', preventDefault);
+        };
+    }, []);
+
+    const startSystem = () => {
+        audioService.resume();
+        setAudioStarted(true);
+    };
+
+    if (!audioStarted) {
+        return (
+            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/90 text-white cursor-pointer" onClick={startSystem} onTouchStart={startSystem}>
+                <div className="text-center animate-pulse">
+                    <p className="text-xl font-bold mb-2">TAP TO START</p>
+                    <p className="text-xs text-gray-400">Initialize Audio & System</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div
