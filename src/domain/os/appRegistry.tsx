@@ -15,7 +15,7 @@ export interface AppDefinition {
     id: AppId;
     name: string;
     icon: React.ReactNode;
-    component: React.ComponentType<any>;
+    component: React.ComponentType<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // Single source of truth for all apps

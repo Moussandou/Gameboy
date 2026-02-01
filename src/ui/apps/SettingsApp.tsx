@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSystem } from '../../domain/os/SystemContext';
-import { useCalibration, AVAILABLE_SKINS } from '../../domain/calibration/CalibrationContext';
+import { useCalibration } from '../../domain/calibration/CalibrationContext';
+import { AVAILABLE_SKINS } from '../../domain/calibration/constants';
 
 export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
     const { volume, brightness, musicEnabled, setVolume, setBrightness, toggleMusic } = useSystem();
@@ -26,7 +27,7 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
                 if (isJustPressed('LEFT')) setBrightness(brightness - 1);
                 if (isJustPressed('RIGHT')) setBrightness(brightness + 1);
             } else if (selectedRow === 2) { // Skin
-                const currentIndex = AVAILABLE_SKINS.findIndex(s => s.path === currentSkin);
+                const currentIndex = AVAILABLE_SKINS.findIndex((s: { path: string }) => s.path === currentSkin);
                 if (isJustPressed('LEFT')) {
                     const nextIndex = (currentIndex - 1 + AVAILABLE_SKINS.length) % AVAILABLE_SKINS.length;
                     setSkin(AVAILABLE_SKINS[nextIndex].path);
@@ -51,7 +52,7 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
         return () => clearTimeout(timeout);
     }, [input, selectedRow, volume, brightness, setVolume, setBrightness, toggleMusic, currentSkin, setSkin, resetCalibration]);
 
-    const currentSkinName = AVAILABLE_SKINS.find(s => s.path === currentSkin)?.name || 'Unknown';
+    const currentSkinName = AVAILABLE_SKINS.find((s: { path: string }) => s.path === currentSkin)?.name || 'Unknown';
 
     return (
         <div className="w-full h-full bg-[#eeeeee] flex flex-col font-jersey text-gb-screen-darkest relative overflow-hidden">

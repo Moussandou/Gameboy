@@ -85,7 +85,7 @@ export const useSimon = (input: Set<string>): SimonState => {
 
         const startTimeout = setTimeout(showNext, 500);
         return () => clearTimeout(startTimeout);
-    }, [sequence.length, isRunning, gameOver]); // Trigger when sequence changes
+    }, [sequence, isRunning, gameOver, playerTurn]); // Trigger when sequence changes
 
     // Player Input Handling
     useEffect(() => {

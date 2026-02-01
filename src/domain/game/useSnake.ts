@@ -28,34 +28,37 @@ export const useSnake = (input: Set<string>) => {
         isRunningRef.current = isRunning;
     }, [direction, snake, gameOver, isRunning]);
 
-    // Input Handling
-    useEffect(() => {
-        if (input.has('UP') && directionRef.current !== 'DOWN') setDirection('UP');
-        if (input.has('DOWN') && directionRef.current !== 'UP') setDirection('DOWN');
-        if (input.has('LEFT') && directionRef.current !== 'RIGHT') setDirection('LEFT');
-        if (input.has('RIGHT') && directionRef.current !== 'LEFT') setDirection('RIGHT');
+    const randomFood = useCallback((): Point => {
+        return {
+            x: Math.floor(Math.random() * GRID_W),
+            y: Math.floor(Math.random() * GRID_H),
+        };
+    }, []);
 
-        if (input.has('START') || input.has('A')) {
-            if (gameOverRef.current) resetGame();
-            else if (!isRunningRef.current) setIsRunning(true);
-        }
-    }, [input]);
-
-    const resetGame = () => {
+    const resetGame = useCallback(() => {
         setSnake([{ x: 10, y: 10 }]);
         setFood(randomFood());
         setDirection('RIGHT');
         setGameOver(false);
         setScore(0);
         setIsRunning(true);
-    };
+    }, [randomFood]);
 
-    const randomFood = (): Point => {
-        return {
-            x: Math.floor(Math.random() * GRID_W),
-            y: Math.floor(Math.random() * GRID_H),
-        };
-    };
+    // Input Handling
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            if (input.has('UP') && directionRef.current !== 'DOWN') setDirection('UP');
+            if (input.has('DOWN') && directionRef.current !== 'UP') setDirection('DOWN');
+            if (input.has('LEFT') && directionRef.current !== 'RIGHT') setDirection('LEFT');
+            if (input.has('RIGHT') && directionRef.current !== 'LEFT') setDirection('RIGHT');
+
+            if (input.has('START') || input.has('A')) {
+                if (gameOverRef.current) resetGame();
+                else if (!isRunningRef.current) setIsRunning(true);
+            }
+        }, 0);
+        return () => clearTimeout(timeout);
+    }, [input, resetGame]);
 
     const moveSnake = useCallback(() => {
         if (gameOverRef.current || !isRunningRef.current) return;
@@ -94,7 +97,7 @@ export const useSnake = (input: Set<string>) => {
         }
 
         setSnake(newSnake);
-    }, [food]);
+    }, [food, randomFood]);
 
     useEffect(() => {
         const interval = setInterval(moveSnake, INITIAL_SPEED);

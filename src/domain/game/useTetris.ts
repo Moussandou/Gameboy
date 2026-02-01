@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 
 const COLS = 10;
 const ROWS = 18; // Slightly shorter for GameBoy screen aspect
@@ -39,7 +39,7 @@ export const useTetris = (input: Set<string>) => {
     // Track previous input for edge detection
     const prevInput = useRef<Set<string>>(new Set());
 
-    const checkCollision = (p: typeof piece, g: string[][]) => {
+    const checkCollision = useCallback((p: typeof piece, g: string[][]) => {
         for (let y = 0; y < p.shape.length; y++) {
             for (let x = 0; x < p.shape[y].length; x++) {
                 if (p.shape[y][x]) {
@@ -52,14 +52,14 @@ export const useTetris = (input: Set<string>) => {
             }
         }
         return false;
-    };
+    }, []);
 
-    const rotate = (p: typeof piece) => {
+    const rotate = useCallback((p: typeof piece) => {
         const rotatedShape = p.shape[0].map((_, index) => p.shape.map(row => row[index]).reverse());
         return { ...p, shape: rotatedShape };
-    };
+    }, []);
 
-    const placePiece = () => {
+    const placePiece = useCallback(() => {
         const newGrid = grid.map(row => [...row]);
         piece.shape.forEach((row, y) => {
             row.forEach((value, x) => {
@@ -93,7 +93,7 @@ export const useTetris = (input: Set<string>) => {
         } else {
             setPiece(newPiece);
         }
-    };
+    }, [grid, piece, checkCollision]);
 
     // Game Loop
     useEffect(() => {
@@ -109,7 +109,7 @@ export const useTetris = (input: Set<string>) => {
         }, 500); // Drop speed
 
         return () => clearInterval(loop);
-    }, [isPlaying, gameOver, piece, grid]);
+    }, [isPlaying, gameOver, piece, grid, checkCollision, placePiece]);
 
     // Input Handling
     useEffect(() => {
@@ -167,7 +167,7 @@ export const useTetris = (input: Set<string>) => {
         }
 
         prevInput.current = new Set(input); // Update logic
-    }, [input, piece, grid, isPlaying, gameOver]);
+    }, [input, piece, grid, isPlaying, gameOver, checkCollision, rotate]);
 
     return { grid, piece, score, gameOver, isPlaying, COLS, ROWS };
 };

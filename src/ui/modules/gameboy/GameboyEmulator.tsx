@@ -3,7 +3,7 @@ import { useCalibration } from '../../../domain/calibration/CalibrationContext';
 import { getPressedButton } from '../../../domain/input/logic';
 import { audioService } from '../../../infra/AudioService';
 import { useSnake } from '../../../domain/game/useSnake';
-import { SystemProvider } from '../../../domain/os/SystemContext';
+import { SystemProvider } from '../../../domain/os/SystemProvider';
 
 import { OSContainer } from '../../os/OSContainer';
 

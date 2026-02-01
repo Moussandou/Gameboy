@@ -1,27 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { audioService } from '../../infra/AudioService';
-
-interface SystemState {
-    volume: number; // 0 to 10
-    brightness: number; // 0 to 10
-    musicEnabled: boolean;
-    toggleMute: () => void;
-    setVolume: (vol: number) => void;
-    setBrightness: (br: number) => void;
-    toggleMusic: () => void;
-}
-
-const SystemContext = createContext<SystemState>({
-    volume: 5,
-    brightness: 10,
-    musicEnabled: true,
-    toggleMute: () => { },
-    setVolume: () => { },
-    setBrightness: () => { },
-    toggleMusic: () => { },
-});
-
-export const useSystem = () => useContext(SystemContext);
+import { SystemContext } from './SystemContext';
 
 export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [volume, setVolumeState] = useState(5);

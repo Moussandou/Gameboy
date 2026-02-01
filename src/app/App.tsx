@@ -1,5 +1,6 @@
 import React from 'react';
-import { CalibrationProvider, useCalibration } from '../domain/calibration/CalibrationContext';
+import { CalibrationProvider } from '../domain/calibration/CalibrationProvider';
+import { useCalibration } from '../domain/calibration/CalibrationContext';
 import { GameboyEmulator } from '../ui/modules/gameboy/GameboyEmulator';
 import { LeftSidebar, RightSidebar } from '../ui/components/DesktopSidebar';
 

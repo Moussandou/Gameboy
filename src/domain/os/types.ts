@@ -4,7 +4,7 @@ export interface AppConfig {
     id: AppId;
     name: string;
     icon: React.ReactNode; // SVG Component
-    component: React.ComponentType<any>;
+    component: React.ComponentType<any>; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 export type OSState = 'BOOT' | 'HOME' | 'APP_RUNNING';

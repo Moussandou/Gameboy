@@ -113,21 +113,27 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
     useEffect(() => {
         if (gameOverRef.current || !isRunningRef.current) {
             if (input.has('A') || input.has('START')) {
-                if (gameOverRef.current) {
-                    resetGame();
-                } else {
-                    setIsRunning(true);
-                }
+                const timeout = setTimeout(() => {
+                    if (gameOverRef.current) {
+                        resetGame();
+                    } else {
+                        setIsRunning(true);
+                    }
+                }, 0);
+                return () => clearTimeout(timeout);
             }
             return;
         }
 
-        if (input.has('LEFT')) {
-            setPaddleX(prev => Math.max(0, prev - PADDLE_SPEED));
-        }
-        if (input.has('RIGHT')) {
-            setPaddleX(prev => Math.min(GAME_WIDTH - PADDLE_WIDTH, prev + PADDLE_SPEED));
-        }
+        const timeout = setTimeout(() => {
+            if (input.has('LEFT')) {
+                setPaddleX(prev => Math.max(0, prev - PADDLE_SPEED));
+            }
+            if (input.has('RIGHT')) {
+                setPaddleX(prev => Math.min(GAME_WIDTH - PADDLE_WIDTH, prev + PADDLE_SPEED));
+            }
+        }, 0);
+        return () => clearTimeout(timeout);
     }, [input, resetGame]);
 
     // Game Loop
