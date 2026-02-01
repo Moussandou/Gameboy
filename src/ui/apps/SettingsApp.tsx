@@ -113,8 +113,9 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
     const headerBg = isDark ? 'bg-[#1a1a1a] border-[#333]' : 'bg-white border-gray-300';
     const headerText = isDark ? 'text-gray-300 bg-[#1a1a1a]' : 'text-gray-600 bg-white';
 
-    const Row = ({ index, children }: { index: number, children: React.ReactNode }) => (
+    const renderRow = (index: number, children: React.ReactNode) => (
         <div
+            key={index}
             ref={(el) => { rowRefs.current[index] = el; }}
             className={`transition-all duration-200 p-3 rounded-xl border-2 shrink-0 ${selectedRow === index ? activeCardBg : cardBg}`}
         >
@@ -134,90 +135,98 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
                 className="flex-1 p-4 space-y-4 flex flex-col justify-start overflow-y-auto no-scrollbar"
             >
                 {/* Volume Control */}
-                <Row index={0}>
-                    <div className="flex justify-between items-center mb-2">
-                        <span className={`${textColor} font-bold text-sm`}>Volume</span>
-                        <span className="text-blue-400 font-bold text-sm">{volume * 10}%</span>
-                    </div>
-                    <div className="flex gap-1 h-2">
-                        {[...Array(10)].map((_, i) => (
-                            <div
-                                key={i}
-                                className={`flex-1 rounded-sm transition-colors ${i < volume ? 'bg-blue-400' : (isDark ? 'bg-[#333]' : 'bg-gray-200')}`}
-                            ></div>
-                        ))}
-                    </div>
-                </Row>
+                {renderRow(0, (
+                    <>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className={`${textColor} font-bold text-sm`}>Volume</span>
+                            <span className="text-blue-400 font-bold text-sm">{volume * 10}%</span>
+                        </div>
+                        <div className="flex gap-1 h-2">
+                            {[...Array(10)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className={`flex-1 rounded-sm transition-colors ${i < volume ? 'bg-blue-400' : (isDark ? 'bg-[#333]' : 'bg-gray-200')}`}
+                                ></div>
+                            ))}
+                        </div>
+                    </>
+                ))}
 
                 {/* Brightness Control */}
-                <Row index={1}>
-                    <div className="flex justify-between items-center mb-2">
-                        <span className={`${textColor} font-bold text-sm`}>Brightness</span>
-                        <span className="text-yellow-400 font-bold text-sm">{brightness * 10}%</span>
-                    </div>
-                    <div className="flex gap-1 h-2">
-                        {[...Array(10)].map((_, i) => (
-                            <div
-                                key={i}
-                                className={`flex-1 rounded-sm transition-colors ${i < brightness ? 'bg-yellow-400' : (isDark ? 'bg-[#333]' : 'bg-gray-200')}`}
-                            ></div>
-                        ))}
-                    </div>
-                </Row>
+                {renderRow(1, (
+                    <>
+                        <div className="flex justify-between items-center mb-2">
+                            <span className={`${textColor} font-bold text-sm`}>Brightness</span>
+                            <span className="text-yellow-400 font-bold text-sm">{brightness * 10}%</span>
+                        </div>
+                        <div className="flex gap-1 h-2">
+                            {[...Array(10)].map((_, i) => (
+                                <div
+                                    key={i}
+                                    className={`flex-1 rounded-sm transition-colors ${i < brightness ? 'bg-yellow-400' : (isDark ? 'bg-[#333]' : 'bg-gray-200')}`}
+                                ></div>
+                            ))}
+                        </div>
+                    </>
+                ))}
 
                 {/* Theme Toggle */}
-                <Row index={2}>
+                {renderRow(2, (
                     <div className="flex justify-between items-center">
                         <span className={`${textColor} font-bold text-sm`}>App Theme</span>
                         <div className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${isDark ? 'bg-purple-500 text-white' : 'bg-gray-200 text-gray-600'}`}>
                             {isDark ? 'DARK' : 'LIGHT'}
                         </div>
                     </div>
-                </Row>
+                ))}
 
                 {/* Skin Selector */}
-                <Row index={3}>
-                    <div className="flex justify-between items-center mb-1">
-                        <span className={`${textColor} font-bold text-sm`}>Console Skin</span>
-                    </div>
-                    <div className={`flex justify-between items-center rounded-lg p-2 ${isDark ? 'bg-[#222]' : 'bg-gray-100'}`}>
-                        <span className="text-gray-400 text-xs">◀</span>
-                        <span className={`${textValueColor} font-bold text-sm`}>{currentSkinName}</span>
-                        <span className="text-gray-400 text-xs">▶</span>
-                    </div>
-                </Row>
+                {renderRow(3, (
+                    <>
+                        <div className="flex justify-between items-center mb-1">
+                            <span className={`${textColor} font-bold text-sm`}>Console Skin</span>
+                        </div>
+                        <div className={`flex justify-between items-center rounded-lg p-2 ${isDark ? 'bg-[#222]' : 'bg-gray-100'}`}>
+                            <span className="text-gray-400 text-xs">◀</span>
+                            <span className={`${textValueColor} font-bold text-sm`}>{currentSkinName}</span>
+                            <span className="text-gray-400 text-xs">▶</span>
+                        </div>
+                    </>
+                ))}
 
                 {/* Wallpaper Selector */}
-                <Row index={4}>
-                    <div className="flex justify-between items-center mb-1">
-                        <span className={`${textColor} font-bold text-sm`}>Wallpaper</span>
-                    </div>
-                    <div className={`flex justify-between items-center rounded-lg p-2 ${isDark ? 'bg-[#222]' : 'bg-gray-100'}`}>
-                        <span className="text-gray-400 text-xs">◀</span>
-                        <span className={`${textValueColor} font-bold text-sm capitalize`}>{wallpaper.replace('-', ' ')}</span>
-                        <span className="text-gray-400 text-xs">▶</span>
-                    </div>
-                </Row>
+                {renderRow(4, (
+                    <>
+                        <div className="flex justify-between items-center mb-1">
+                            <span className={`${textColor} font-bold text-sm`}>Wallpaper</span>
+                        </div>
+                        <div className={`flex justify-between items-center rounded-lg p-2 ${isDark ? 'bg-[#222]' : 'bg-gray-100'}`}>
+                            <span className="text-gray-400 text-xs">◀</span>
+                            <span className={`${textValueColor} font-bold text-sm capitalize`}>{wallpaper.replace('-', ' ')}</span>
+                            <span className="text-gray-400 text-xs">▶</span>
+                        </div>
+                    </>
+                ))}
 
                 {/* Music Toggle */}
-                <Row index={5}>
+                {renderRow(5, (
                     <div className="flex justify-between items-center">
                         <span className={`${textColor} font-bold text-sm`}>Music</span>
                         <div className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${musicEnabled ? 'bg-green-400 text-white' : (isDark ? 'bg-[#333] text-gray-500' : 'bg-gray-300 text-gray-500')}`}>
                             {musicEnabled ? 'ON' : 'OFF'}
                         </div>
                     </div>
-                </Row>
+                ))}
 
                 {/* Recalibrate */}
-                <Row index={6}>
+                {renderRow(6, (
                     <div className="flex justify-between items-center">
                         <span className={`${textColor} font-bold text-sm`}>Recalibrate</span>
                         <div className="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-500">
                             Press A
                         </div>
                     </div>
-                </Row>
+                ))}
 
                 {/* Hint */}
                 <div className="pb-4 text-center text-[10px] text-gray-400 tracking-wider shrink-0 mt-auto pt-4">

@@ -46,7 +46,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
     const bottomBarBg = isDark ? 'bg-[#222] border-[#333]' : 'bg-white border-gray-300';
     const itemNormal = isDark ? 'bg-[#222] border-[#333] shadow-[0_2px_0_#111]' : 'bg-[#f0f0f0] border-2 border-gray-300 shadow-[0_2px_0_#ccc]';
     const itemSelected = isDark ? 'bg-[#333] border-[#5acbf7] shadow-[0_4px_0_#005f7a,0_8px_16px_rgba(0,0,0,0.5)]' : 'bg-white border-4 border-[#5acbf7] shadow-[0_4px_0_#3aa0c5,0_8px_16px_rgba(0,0,0,0.1)]';
-    const textColor = isDark ? 'text-gray-300' : 'text-[#333]';
     const activeText = isDark ? 'text-white' : 'text-[#333]';
 
     return (
