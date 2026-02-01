@@ -4,11 +4,11 @@ import { useCalibration, AVAILABLE_SKINS } from '../../domain/calibration/Calibr
 
 export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
     const { volume, brightness, musicEnabled, setVolume, setBrightness, toggleMusic } = useSystem();
-    const { currentSkin, setSkin } = useCalibration();
+    const { currentSkin, setSkin, resetCalibration } = useCalibration();
     const [selectedRow, setSelectedRow] = useState(0);
     const prevInput = useRef<Set<string>>(new Set());
 
-    const ROWS = 4; // Volume, Brightness, Skin, Music
+    const ROWS = 5; // Volume, Brightness, Skin, Music, Recalibrate
 
     useEffect(() => {
         if (!input) return;
@@ -38,10 +38,14 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
             if (isJustPressed('A') || isJustPressed('LEFT') || isJustPressed('RIGHT')) {
                 toggleMusic();
             }
+        } else if (selectedRow === 4) { // Recalibrate
+            if (isJustPressed('A')) {
+                resetCalibration();
+            }
         }
 
         prevInput.current = new Set(input);
-    }, [input, selectedRow, volume, brightness, setVolume, setBrightness, toggleMusic, currentSkin, setSkin]);
+    }, [input, selectedRow, volume, brightness, setVolume, setBrightness, toggleMusic, currentSkin, setSkin, resetCalibration]);
 
     const currentSkinName = AVAILABLE_SKINS.find(s => s.path === currentSkin)?.name || 'Unknown';
 
@@ -105,6 +109,16 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
                         <span className="text-gray-500 font-bold text-sm">Music</span>
                         <div className={`px-3 py-1 rounded-full text-xs font-bold transition-colors ${musicEnabled ? 'bg-green-400 text-white' : 'bg-gray-300 text-gray-500'}`}>
                             {musicEnabled ? 'ON' : 'OFF'}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Recalibrate */}
+                <div className={`transition-all duration-200 p-3 rounded-xl border-2 shrink-0 ${selectedRow === 4 ? 'bg-white border-red-400 shadow-lg scale-105' : 'bg-transparent border-transparent opacity-80'}`}>
+                    <div className="flex justify-between items-center">
+                        <span className="text-gray-500 font-bold text-sm">Recalibrate</span>
+                        <div className="px-3 py-1 rounded-full text-xs font-bold bg-red-100 text-red-500">
+                            Press A
                         </div>
                     </div>
                 </div>

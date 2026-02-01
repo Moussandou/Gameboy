@@ -243,19 +243,6 @@ export const GameboyEmulator: React.FC = () => {
                     </div>
                 </div>
             )}
-
-            {/* Reset Button (Hidden or small) */}
-            <div className="fixed top-2 right-2 flex gap-2 z-50 pointer-events-auto">
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        resetCalibration();
-                    }}
-                    className="p-2 bg-black/20 text-white/50 text-xs rounded hover:bg-black/50"
-                >
-                    Recalibrate
-                </button>
-            </div>
         </div>
     );
 };
