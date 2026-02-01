@@ -1,5 +1,6 @@
 import React from 'react';
 import { CalibrationProvider } from '../domain/calibration/CalibrationProvider';
+import { ProfileProvider } from '../domain/profile/ProfileProvider';
 import { useCalibration } from '../domain/calibration/CalibrationContext';
 import { GameboyEmulator } from '../ui/modules/gameboy/GameboyEmulator';
 import { LeftSidebar, RightSidebar } from '../ui/components/DesktopSidebar';
@@ -10,16 +11,7 @@ const Main: React.FC = () => {
   return (
     <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-[#e8e8e8] overflow-hidden relative">
       {/* Desktop Background - Elaborate pattern */}
-      <div
-        className="hidden md:block absolute inset-0 bg-gradient-to-br from-[#f0f0f0] via-[#e8e8e8] to-[#d8d8d8]"
-        style={{
-          backgroundImage: `
-            radial-gradient(circle at 25% 25%, rgba(90, 203, 247, 0.1) 0%, transparent 50%),
-            radial-gradient(circle at 75% 75%, rgba(147, 197, 253, 0.1) 0%, transparent 50%),
-            repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(0,0,0,0.02) 35px, rgba(0,0,0,0.02) 70px)
-          `
-        }}
-      />
+      <div className="absolute inset-0 bg-gradient-to-br from-[#d4d4d4] to-[#f4f4f4] -z-10" />
 
       {/* Desktop Layout with Sidebars */}
       <div className="relative z-10 flex items-center justify-center h-full w-full">
@@ -55,7 +47,9 @@ const Main: React.FC = () => {
 const App: React.FC = () => {
   return (
     <CalibrationProvider>
-      <Main />
+      <ProfileProvider>
+        <Main />
+      </ProfileProvider>
     </CalibrationProvider>
   );
 };

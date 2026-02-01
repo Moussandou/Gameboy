@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useProfile } from '../profile/ProfileContext';
 
 export type SimonDirection = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 
@@ -19,6 +20,7 @@ const SHOW_DELAY = 600; // ms between each sequence item
 const FLASH_DURATION = 400; // ms for button flash
 
 export const useSimon = (input: Set<string>): SimonState => {
+    const { submitScore } = useProfile();
     const [sequence, setSequence] = useState<SimonDirection[]>([]);
     const [playerIndex, setPlayerIndex] = useState(0);
     const [isShowingSequence, setIsShowingSequence] = useState(false);
@@ -114,13 +116,14 @@ export const useSimon = (input: Set<string>): SimonState => {
                     // Wrong!
                     setGameOver(true);
                     setIsRunning(false);
+                    submitScore('simon', score);
                 }
                 break;
             }
         }
 
         prevInput.current = new Set(input);
-    }, [input, isRunning, gameOver, isShowingSequence, playerTurn, sequence, playerIndex, addToSequence]);
+    }, [input, isRunning, gameOver, isShowingSequence, playerTurn, sequence, playerIndex, addToSequence, score, submitScore]);
 
     // Start/Restart Input
     useEffect(() => {

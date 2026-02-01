@@ -28,7 +28,7 @@ export const CalibrationProvider: React.FC<{ children: React.ReactNode }> = ({ c
     };
 
     const resetCalibration = () => {
-        setData({});
+        setData(DEFAULT_CALIBRATION);
         setIsCalibrated(false);
         localStorage.removeItem(STORAGE_KEY);
     };

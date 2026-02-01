@@ -1,4 +1,4 @@
-export type AppId = 'snake' | 'settings' | 'breakout' | 'simon' | 'clock' | 'tetris' | 'credits';
+export type AppId = 'snake' | 'settings' | 'breakout' | 'simon' | 'clock' | 'tetris' | 'credits' | 'profile';
 
 export interface AppConfig {
     id: AppId;

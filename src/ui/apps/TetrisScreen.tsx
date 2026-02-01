@@ -1,5 +1,6 @@
 import React from 'react';
 import { useTetris } from '../../domain/game/useTetris';
+import { useSystem } from '../../domain/os/SystemContext';
 
 interface TetrisScreenProps {
     input: Set<string>;
@@ -7,30 +8,36 @@ interface TetrisScreenProps {
 
 export const TetrisScreen: React.FC<TetrisScreenProps> = ({ input }) => {
     const { grid, piece, score, gameOver, isPlaying, COLS, ROWS } = useTetris(input);
+    const { theme } = useSystem();
+    const isDark = theme === 'dark';
+
+    const bgClass = isDark ? 'bg-[#111]' : 'bg-[#f0f0f0]';
+    const gridColor = isDark ? '#333' : '#000';
+    const titleColor = isDark ? 'text-blue-400' : 'text-blue-600';
 
     return (
-        <div className="w-full h-full bg-[#f0f0f0] flex flex-col items-center justify-center font-jersey relative overflow-hidden">
+        <div className={`w-full h-full ${bgClass} flex flex-col items-center justify-center font-jersey relative overflow-hidden transition-colors duration-300`}>
             {/* Background Grid */}
             <div className="absolute inset-0 opacity-5"
-                style={{ backgroundImage: 'linear-gradient(#000 1px, transparent 1px), linear-gradient(90deg, #000 1px, transparent 1px)', backgroundSize: '10px 10px' }}
+                style={{ backgroundImage: `linear-gradient(${gridColor} 1px, transparent 1px), linear-gradient(90deg, ${gridColor} 1px, transparent 1px)`, backgroundSize: '10px 10px' }}
             ></div>
 
             {/* Score */}
             <div className="absolute top-2 right-2 text-right z-10">
                 <div className="text-[8px] text-gray-500 font-bold tracking-widest">SCORE</div>
-                <div className="text-xl leading-none font-bold text-gray-800">{score}</div>
+                <div className={`text-xl leading-none font-bold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{score}</div>
             </div>
 
             {/* Game Board */}
             {!isPlaying && !gameOver ? (
                 <div className="flex flex-col items-center animate-zoom-in z-20">
-                    <h1 className="text-3xl font-bold text-blue-600 mb-2 drop-shadow-sm tracking-tighter">BLOCK STACK</h1>
+                    <h1 className={`text-3xl font-bold ${titleColor} mb-2 drop-shadow-sm tracking-tighter`}>BLOCK STACK</h1>
                     <div className="text-[10px] text-gray-500 animate-pulse text-center">
                         PRESS START<br />TO PLAY
                     </div>
                 </div>
             ) : (
-                <div className="relative border-4 border-gray-400 bg-white rounded p-1 shadow-inner z-10" style={{ width: '60%', aspectRatio: `${COLS}/${ROWS}` }}>
+                <div className={`relative border-4 ${isDark ? 'border-[#444] bg-[#222]' : 'border-gray-400 bg-white'} rounded p-1 shadow-inner z-10`} style={{ width: '60%', aspectRatio: `${COLS}/${ROWS}` }}>
                     <div className="w-full h-full grid" style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)`, gridTemplateRows: `repeat(${ROWS}, 1fr)` }}>
                         {grid.map((row, y) => (
                             row.map((cell, x) => {
@@ -46,7 +53,7 @@ export const TetrisScreen: React.FC<TetrisScreenProps> = ({ input }) => {
                                 }
 
                                 return (
-                                    <div key={`${x}-${y}`} className={`w-full h-full border-[0.5px] border-gray-100 ${cellColor ? 'opacity-100' : 'opacity-0'}`}>
+                                    <div key={`${x}-${y}`} className={`w-full h-full border-[0.5px] ${isDark ? 'border-[#333]' : 'border-gray-100'} ${cellColor ? 'opacity-100' : 'opacity-0'}`}>
                                         {cellColor && (
                                             <div className={`w-full h-full ${cellColor} bg-current rounded-[1px] shadow-sm`}></div>
                                         )}

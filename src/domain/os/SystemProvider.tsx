@@ -6,6 +6,8 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [volume, setVolumeState] = useState(5);
     const [brightness, setBrightness] = useState(10);
     const [musicEnabled, setMusicEnabled] = useState(true);
+    const [wallpaper, setWallpaper] = useState('default');
+    const [theme, setTheme] = useState<'light' | 'dark'>('light');
     const bgmRef = useRef<HTMLAudioElement | null>(null);
 
     // Initialize BGM
@@ -69,8 +71,15 @@ export const SystemProvider: React.FC<{ children: React.ReactNode }> = ({ childr
         setMusicEnabled(prev => !prev);
     };
 
+    const toggleTheme = () => {
+        setTheme(prev => prev === 'light' ? 'dark' : 'light');
+    };
+
     return (
-        <SystemContext.Provider value={{ volume, brightness, musicEnabled, setVolume, setBrightness: setBrightnessVal, toggleMute, toggleMusic }}>
+        <SystemContext.Provider value={{
+            volume, brightness, musicEnabled, wallpaper, theme,
+            setVolume, setBrightness: setBrightnessVal, toggleMute, toggleMusic, setWallpaper, toggleTheme
+        }}>
             <div style={{ filter: `brightness(${0.5 + (brightness / 20)})` }} className="w-full h-full transition-all duration-300">
                 {children}
             </div>

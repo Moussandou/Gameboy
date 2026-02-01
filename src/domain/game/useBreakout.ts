@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useProfile } from '../profile/ProfileContext';
 
 // Constants
 const GAME_WIDTH = 160;
@@ -56,6 +57,7 @@ const createBricks = (): Brick[] => {
 };
 
 export const useBreakout = (input: Set<string>): BreakoutState => {
+    const { submitScore } = useProfile();
     const [paddleX, setPaddleX] = useState((GAME_WIDTH - PADDLE_WIDTH) / 2);
     const [ballX, setBallX] = useState(GAME_WIDTH / 2);
     const [ballY, setBallY] = useState(GAME_HEIGHT - 30);
@@ -179,6 +181,7 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
             if (newLives <= 0) {
                 setGameOver(true);
                 setIsRunning(false);
+                submitScore('breakout', score);
             } else {
                 resetBall();
             }
@@ -213,6 +216,7 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
                 setWon(true);
                 setGameOver(true);
                 setIsRunning(false);
+                submitScore('breakout', score + 10);
             }
         }
 
@@ -220,7 +224,7 @@ export const useBreakout = (input: Set<string>): BreakoutState => {
         setBallY(newBallY);
         setBallVX(newVX);
         setBallVY(newVY);
-    }, [resetBall]);
+    }, [resetBall, score, submitScore]);
 
     useEffect(() => {
         const interval = setInterval(gameLoop, 16); // ~60fps

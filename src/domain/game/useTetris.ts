@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useProfile } from '../profile/ProfileContext';
 
 const COLS = 10;
 const ROWS = 18; // Slightly shorter for GameBoy screen aspect
@@ -28,6 +29,7 @@ const randomTetromino = () => {
 };
 
 export const useTetris = (input: Set<string>) => {
+    const { submitScore } = useProfile();
     const [grid, setGrid] = useState<string[][]>(Array(ROWS).fill(Array(COLS).fill(null)));
     const [piece, setPiece] = useState(randomTetromino());
     const [score, setScore] = useState(0);
@@ -82,7 +84,8 @@ export const useTetris = (input: Set<string>) => {
             }
         }
 
-        setScore(prev => prev + (cleared * 100));
+        const newScore = score + (cleared * 100);
+        setScore(newScore);
         setGrid(newGrid);
 
         // Spawn new
@@ -90,10 +93,11 @@ export const useTetris = (input: Set<string>) => {
         if (checkCollision(newPiece, newGrid)) {
             setGameOver(true);
             setIsPlaying(false);
+            submitScore('tetris', newScore);
         } else {
             setPiece(newPiece);
         }
-    }, [grid, piece, checkCollision]);
+    }, [grid, piece, checkCollision, score, submitScore]);
 
     // Game Loop
     useEffect(() => {

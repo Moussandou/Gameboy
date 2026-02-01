@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
+import { useProfile } from '../profile/ProfileContext';
 
 export type Direction = 'UP' | 'DOWN' | 'LEFT' | 'RIGHT';
 export type Point = { x: number; y: number };
@@ -8,6 +9,7 @@ const GRID_H = 18;
 const INITIAL_SPEED = 150;
 
 export const useSnake = (input: Set<string>) => {
+    const { submitScore } = useProfile();
     const [snake, setSnake] = useState<Point[]>([{ x: 10, y: 10 }]);
     const [food, setFood] = useState<Point>({ x: 5, y: 5 });
     const [direction, setDirection] = useState<Direction>('RIGHT');
@@ -20,13 +22,15 @@ export const useSnake = (input: Set<string>) => {
     const snakeRef = useRef(snake);
     const gameOverRef = useRef(gameOver);
     const isRunningRef = useRef(isRunning);
+    const scoreRef = useRef(score);
 
     useEffect(() => {
         directionRef.current = direction;
         snakeRef.current = snake;
         gameOverRef.current = gameOver;
         isRunningRef.current = isRunning;
-    }, [direction, snake, gameOver, isRunning]);
+        scoreRef.current = score;
+    }, [direction, snake, gameOver, isRunning, score]);
 
     const randomFood = useCallback((): Point => {
         return {
@@ -76,6 +80,7 @@ export const useSnake = (input: Set<string>) => {
         if (head.x < 0 || head.x >= GRID_W || head.y < 0 || head.y >= GRID_H) {
             setGameOver(true);
             setIsRunning(false);
+            submitScore('snake', scoreRef.current);
             return;
         }
 
@@ -83,6 +88,7 @@ export const useSnake = (input: Set<string>) => {
         if (snakeRef.current.some(p => p.x === head.x && p.y === head.y)) {
             setGameOver(true);
             setIsRunning(false);
+            submitScore('snake', scoreRef.current);
             return;
         }
 
