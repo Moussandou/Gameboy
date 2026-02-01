@@ -22,18 +22,21 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
             const container = containerRef.current;
             const element = selectedRef.current;
 
+            // Get relative positions
             const containerTop = container.scrollTop;
             const containerBottom = containerTop + container.clientHeight;
             const elemTop = element.offsetTop;
             const elemBottom = elemTop + element.clientHeight;
 
+            const PADDING_OFFSET = 8; // Maintain visual padding
+
             // Scroll down if below view
             if (elemBottom > containerBottom) {
-                container.scrollTo({ top: elemBottom - container.clientHeight, behavior: 'smooth' });
+                container.scrollTo({ top: elemBottom - container.clientHeight + PADDING_OFFSET, behavior: 'smooth' });
             }
             // Scroll up if above view
-            else if (elemTop < containerTop) {
-                container.scrollTo({ top: elemTop, behavior: 'smooth' });
+            else if (elemTop < containerTop + PADDING_OFFSET) {
+                container.scrollTo({ top: elemTop - PADDING_OFFSET, behavior: 'smooth' });
             }
         }
     }, [selectedIndex]);
@@ -45,10 +48,10 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
                 <span className="text-gray-600 text-[10px] font-bold tracking-widest">MOUSSANDOU OS</span>
             </div>
 
-            {/* Grid - Scrollable */}
+            {/* Grid - Scrollable, Relative for offset calculation */}
             <div
                 ref={containerRef}
-                className="flex-1 p-2 overflow-y-auto no-scrollbar scroll-smooth"
+                className="flex-1 p-2 overflow-y-auto no-scrollbar scroll-smooth relative"
             >
                 <div className="grid grid-cols-2 gap-2 pb-2">
                     {paddedApps.map((app, index) => {
@@ -59,24 +62,24 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
                             <div
                                 key={index}
                                 ref={isSelected ? selectedRef : null}
-                                className={`aspect-square rounded-lg border-2 flex flex-col items-center justify-center relative transition-all duration-150 ${isSelected
-                                    ? 'border-[#5acbf7] shadow-[0_0_8px_rgba(90,203,247,0.6)] bg-white z-10 scale-105'
-                                    : 'border-gray-300 bg-[#f5f5f5] opacity-80 scale-100'
+                                className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center relative transition-all duration-150 ${isSelected
+                                    ? 'border-[#5acbf7] shadow-[0_0_8px_rgba(90,203,247,0.6)] bg-white z-10 scale-100' // Removed scale-105 to avoid overflow/clipping with huge items
+                                    : 'border-gray-300 bg-[#f5f5f5] opacity-80 scale-95'
                                     }`}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent rounded-lg pointer-events-none"></div>
+                                <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent rounded-xl pointer-events-none"></div>
 
                                 {!isPlaceholder ? (
                                     <>
-                                        <div className="w-14 h-14 mb-1">
+                                        <div className="w-16 h-16 mb-1 filter drop-shadow-sm">
                                             {app.icon}
                                         </div>
-                                        <div className="text-[10px] text-gray-800 font-bold uppercase text-center leading-tight px-1 break-words w-full">
+                                        <div className="text-xs text-gray-800 font-bold uppercase text-center leading-none px-0.5 break-words w-full shadow-black">
                                             {app.name}
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="opacity-20 text-2xl text-gray-400">?</div>
+                                    <div className="opacity-20 text-3xl text-gray-400">?</div>
                                 )}
                             </div>
                         );
