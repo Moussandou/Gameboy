@@ -6,7 +6,7 @@ const Main: React.FC = () => {
   const { currentSkin } = useCalibration();
 
   return (
-    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-neutral-900 overflow-hidden">
+    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-[#e8e8e8] overflow-hidden">
       {/* Container - Full screen on mobile, constrained on desktop */}
       <div
         className="relative flex items-center justify-center w-full h-full md:h-auto md:w-auto overflow-hidden md:shadow-2xl md:rounded-3xl"
