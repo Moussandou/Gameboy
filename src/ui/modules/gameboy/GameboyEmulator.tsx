@@ -141,7 +141,7 @@ export const GameboyEmulator: React.FC = () => {
             container.removeEventListener('touchstart', handleTouch);
             container.removeEventListener('touchmove', handleTouch);
         };
-    }, [data['SCREEN']]);
+    }, [data]); // Using data directly is safer and simpler for the linter
 
     // Keyboard Support
     useEffect(() => {

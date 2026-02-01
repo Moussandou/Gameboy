@@ -13,38 +13,42 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
     useEffect(() => {
         if (!input) return;
 
-        const isJustPressed = (btn: string) => input.has(btn) && !prevInput.current.has(btn);
+        const timeout = setTimeout(() => {
+            const isJustPressed = (btn: string) => input.has(btn) && !prevInput.current.has(btn);
 
-        if (isJustPressed('DOWN')) setSelectedRow(prev => Math.min(prev + 1, ROWS - 1));
-        if (isJustPressed('UP')) setSelectedRow(prev => Math.max(prev - 1, 0));
+            if (isJustPressed('DOWN')) setSelectedRow(prev => Math.min(prev + 1, ROWS - 1));
+            if (isJustPressed('UP')) setSelectedRow(prev => Math.max(prev - 1, 0));
 
-        if (selectedRow === 0) { // Volume
-            if (isJustPressed('LEFT')) setVolume(volume - 1);
-            if (isJustPressed('RIGHT')) setVolume(volume + 1);
-        } else if (selectedRow === 1) { // Brightness
-            if (isJustPressed('LEFT')) setBrightness(brightness - 1);
-            if (isJustPressed('RIGHT')) setBrightness(brightness + 1);
-        } else if (selectedRow === 2) { // Skin
-            const currentIndex = AVAILABLE_SKINS.findIndex(s => s.path === currentSkin);
-            if (isJustPressed('LEFT')) {
-                const nextIndex = (currentIndex - 1 + AVAILABLE_SKINS.length) % AVAILABLE_SKINS.length;
-                setSkin(AVAILABLE_SKINS[nextIndex].path);
+            if (selectedRow === 0) { // Volume
+                if (isJustPressed('LEFT')) setVolume(volume - 1);
+                if (isJustPressed('RIGHT')) setVolume(volume + 1);
+            } else if (selectedRow === 1) { // Brightness
+                if (isJustPressed('LEFT')) setBrightness(brightness - 1);
+                if (isJustPressed('RIGHT')) setBrightness(brightness + 1);
+            } else if (selectedRow === 2) { // Skin
+                const currentIndex = AVAILABLE_SKINS.findIndex(s => s.path === currentSkin);
+                if (isJustPressed('LEFT')) {
+                    const nextIndex = (currentIndex - 1 + AVAILABLE_SKINS.length) % AVAILABLE_SKINS.length;
+                    setSkin(AVAILABLE_SKINS[nextIndex].path);
+                }
+                if (isJustPressed('RIGHT')) {
+                    const nextIndex = (currentIndex + 1) % AVAILABLE_SKINS.length;
+                    setSkin(AVAILABLE_SKINS[nextIndex].path);
+                }
+            } else if (selectedRow === 3) { // Music Toggle
+                if (isJustPressed('A') || isJustPressed('LEFT') || isJustPressed('RIGHT')) {
+                    toggleMusic();
+                }
+            } else if (selectedRow === 4) { // Recalibrate
+                if (isJustPressed('A')) {
+                    resetCalibration();
+                }
             }
-            if (isJustPressed('RIGHT')) {
-                const nextIndex = (currentIndex + 1) % AVAILABLE_SKINS.length;
-                setSkin(AVAILABLE_SKINS[nextIndex].path);
-            }
-        } else if (selectedRow === 3) { // Music Toggle
-            if (isJustPressed('A') || isJustPressed('LEFT') || isJustPressed('RIGHT')) {
-                toggleMusic();
-            }
-        } else if (selectedRow === 4) { // Recalibrate
-            if (isJustPressed('A')) {
-                resetCalibration();
-            }
-        }
 
-        prevInput.current = new Set(input);
+            prevInput.current = new Set(input);
+        }, 0);
+
+        return () => clearTimeout(timeout);
     }, [input, selectedRow, volume, brightness, setVolume, setBrightness, toggleMusic, currentSkin, setSkin, resetCalibration]);
 
     const currentSkinName = AVAILABLE_SKINS.find(s => s.path === currentSkin)?.name || 'Unknown';

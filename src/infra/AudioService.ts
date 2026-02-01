@@ -4,7 +4,8 @@ class AudioService {
 
     constructor() {
         try {
-            this.context = new (window.AudioContext || (window as any).webkitAudioContext)();
+            const Win = window as unknown as { webkitAudioContext: typeof AudioContext };
+            this.context = new (window.AudioContext || Win.webkitAudioContext)();
         } catch (e) {
             console.error('Web Audio API not supported', e);
         }

@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import type { AppDefinition } from '../../domain/os/appRegistry';
+import type { AppId } from '../../domain/os/types';
 
 interface HomeScreenProps {
     apps: AppDefinition[];
@@ -10,7 +11,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
     // Pad to ensure we always have full rows (multiple of 2)
     const paddedApps = [...apps];
     if (paddedApps.length % 2 !== 0) {
-        paddedApps.push({ id: 'placeholder' as any, name: '', icon: '', component: () => null });
+        paddedApps.push({ id: 'placeholder' as AppId, name: '', icon: '', component: () => null });
     }
 
     const containerRef = useRef<HTMLDivElement>(null);

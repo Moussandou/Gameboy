@@ -87,7 +87,8 @@ export const useOS = (input: Set<string>) => {
 
     // Run on input change
     useEffect(() => {
-        handleInput();
+        const timeout = setTimeout(handleInput, 0);
+        return () => clearTimeout(timeout);
     }, [handleInput]);
 
     return {

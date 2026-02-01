@@ -6,7 +6,7 @@ import { APP_REGISTRY, getAppById } from '../../domain/os/appRegistry';
 
 interface OSContainerProps {
     input: Set<string>;
-    gameProps: any; // Props to pass to the game (Snake)
+    gameProps: Record<string, unknown>; // Props to pass to the game (Snake)
 }
 
 export const OSContainer: React.FC<OSContainerProps> = ({ input, gameProps }) => {
