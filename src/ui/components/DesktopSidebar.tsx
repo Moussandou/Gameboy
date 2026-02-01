@@ -7,11 +7,15 @@ export const LeftSidebar: React.FC = () => {
     return (
         <div className="hidden lg:flex flex-col gap-3 w-64 h-full p-4">
             {/* Keyboard Controls */}
-            <div className="bg-[#f5f5f5] rounded-xl p-4 border border-gray-200/60">
-                <h3 className="text-[11px] font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+            {/* Keyboard Controls */}
+            <div className="bg-gradient-to-b from-white to-[#e8e8e8] rounded-2xl p-4 border border-[#d4d4d4] shadow-sm relative overflow-hidden group">
+                {/* Glossy sheen */}
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/60 to-transparent pointer-events-none" />
+                <h3 className="text-[11px] font-bold text-gray-400 mb-3 uppercase tracking-wider relative z-10 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#5acbf7]"></span>
                     Controls
                 </h3>
-                <div className="space-y-2 text-xs">
+                <div className="space-y-2 text-xs relative z-10">
                     <div className="flex justify-between items-center text-gray-600">
                         <span>D-Pad</span>
                         <div className="flex gap-1">
@@ -41,31 +45,37 @@ export const LeftSidebar: React.FC = () => {
             </div>
 
             {/* Games List */}
-            <div className="bg-[#f5f5f5] rounded-xl p-4 border border-gray-200/60 flex-1">
-                <h3 className="text-[11px] font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+            {/* Games List */}
+            <div className="bg-gradient-to-b from-white to-[#e8e8e8] rounded-2xl p-4 border border-[#d4d4d4] shadow-sm flex-1 relative overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/60 to-transparent pointer-events-none" />
+                <h3 className="text-[11px] font-bold text-gray-400 mb-3 uppercase tracking-wider relative z-10 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#5acbf7]"></span>
                     Games
                 </h3>
-                <div className="space-y-1.5">
+                <div className="space-y-1.5 relative z-10">
                     {APP_REGISTRY.filter(app => !['settings', 'clock', 'credits'].includes(app.id)).map(app => (
                         <div
                             key={app.id}
-                            className="flex items-center gap-2.5 p-2 bg-white rounded-lg border border-gray-200/60"
+                            className="flex items-center gap-2.5 p-2 bg-white/80 rounded-xl border border-gray-200/60 shadow-[0_1px_2px_rgba(0,0,0,0.05)] hover:bg-white hover:scale-[1.02] hover:shadow-md transition-all duration-200 cursor-default group"
                         >
-                            <div className="w-6 h-6 flex items-center justify-center">
+                            <div className="w-7 h-7 flex items-center justify-center bg-gray-50 rounded-lg group-hover:bg-[#5acbf7]/10 transition-colors">
                                 {app.icon}
                             </div>
-                            <span className="text-xs text-gray-600">{app.name}</span>
+                            <span className="text-xs text-gray-600 font-medium group-hover:text-[#5acbf7] transition-colors">{app.name}</span>
                         </div>
                     ))}
                 </div>
             </div>
 
             {/* Tech Stack */}
-            <div className="bg-[#f5f5f5] rounded-xl p-4 border border-gray-200/60">
-                <h3 className="text-[11px] font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+            {/* Tech Stack */}
+            <div className="bg-gradient-to-b from-white to-[#e8e8e8] rounded-2xl p-4 border border-[#d4d4d4] shadow-sm relative overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/60 to-transparent pointer-events-none" />
+                <h3 className="text-[11px] font-bold text-gray-400 mb-3 uppercase tracking-wider relative z-10 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#5acbf7]"></span>
                     Built With
                 </h3>
-                <div className="flex flex-wrap gap-1.5">
+                <div className="flex flex-wrap gap-1.5 relative z-10">
                     {['React', 'TypeScript', 'Tailwind', 'Vite'].map(tech => (
                         <span
                             key={tech}
@@ -100,13 +110,17 @@ export const RightSidebar: React.FC = () => {
     return (
         <div className="hidden lg:flex flex-col gap-3 w-64 h-full p-4">
             {/* Profile Card */}
-            <div className="bg-[#f5f5f5] rounded-xl border border-gray-200/60 overflow-hidden">
-                {/* Header - solid color instead of gradient */}
-                <div className="h-12 bg-[#5acbf7]"></div>
+            {/* Profile Card */}
+            <div className="bg-gradient-to-b from-white to-[#e8e8e8] rounded-2xl border border-[#d4d4d4] overflow-hidden shadow-sm relative">
+                {/* Header - Wii Blue Gradient */}
+                <div className="h-14 bg-gradient-to-b from-[#7ddcfc] to-[#5acbf7] relative overflow-hidden">
+                    <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_40%,rgba(255,255,255,0.2)_45%,rgba(255,255,255,0.2)_55%,transparent_60%)] bg-[length:20px_20px]"></div>
+                </div>
 
                 {/* Avatar */}
-                <div className="relative -mt-8 flex justify-center">
-                    <div className="w-16 h-16 rounded-xl overflow-hidden border-3 border-white bg-white shadow-sm">
+                {/* Avatar */}
+                <div className="relative -mt-9 flex justify-center mb-1">
+                    <div className="w-18 h-18 rounded-2xl overflow-hidden border-[3px] border-white bg-white shadow-md relative z-10">
                         <img
                             src={developerProfile.avatar}
                             alt={developerProfile.name}
@@ -120,33 +134,33 @@ export const RightSidebar: React.FC = () => {
                     <p className="text-[10px] text-gray-400 mt-0.5">{developerProfile.title}</p>
 
                     {/* Social Links */}
-                    <div className="flex justify-center gap-1.5 mt-3 flex-wrap">
+                    <div className="flex justify-center gap-2 mt-4 flex-wrap">
                         <a href="https://moussandou.github.io/Portfolio/" target="_blank" rel="noopener noreferrer"
-                            className="w-8 h-8 bg-white rounded-lg border border-gray-200/60 flex items-center justify-center hover:bg-gray-50 transition-colors group" title="Portfolio">
+                            className="w-9 h-9 bg-white rounded-xl border border-gray-200/60 flex items-center justify-center hover:bg-white hover:scale-110 hover:shadow-md transition-all duration-200 group shadow-sm text-gray-500 hover:text-[#5acbf7]" title="Portfolio">
                             <svg className="w-4 h-4 text-gray-600 group-hover:text-blue-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
                             </svg>
                         </a>
                         <a href="https://github.com/Moussandou" target="_blank" rel="noopener noreferrer"
-                            className="w-8 h-8 bg-white rounded-lg border border-gray-200/60 flex items-center justify-center hover:bg-gray-50 transition-colors group" title="GitHub">
+                            className="w-9 h-9 bg-white rounded-xl border border-gray-200/60 flex items-center justify-center hover:bg-white hover:scale-110 hover:shadow-md transition-all duration-200 group shadow-sm text-gray-500 hover:text-black" title="GitHub">
                             <svg className="w-4 h-4 text-gray-600 group-hover:text-black transition-colors" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
                             </svg>
                         </a>
                         <a href="https://www.linkedin.com/in/moussandou/" target="_blank" rel="noopener noreferrer"
-                            className="w-8 h-8 bg-white rounded-lg border border-gray-200/60 flex items-center justify-center hover:bg-gray-50 transition-colors group" title="LinkedIn">
+                            className="w-9 h-9 bg-white rounded-xl border border-gray-200/60 flex items-center justify-center hover:bg-white hover:scale-110 hover:shadow-md transition-all duration-200 group shadow-sm text-gray-500 hover:text-[#0077b5]" title="LinkedIn">
                             <svg className="w-4 h-4 text-gray-600 group-hover:text-[#0077b5] transition-colors" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                             </svg>
                         </a>
                         <a href="https://instagram.com/moussandou" target="_blank" rel="noopener noreferrer"
-                            className="w-8 h-8 bg-white rounded-lg border border-gray-200/60 flex items-center justify-center hover:bg-gray-50 transition-colors group" title="Instagram">
+                            className="w-9 h-9 bg-white rounded-xl border border-gray-200/60 flex items-center justify-center hover:bg-white hover:scale-110 hover:shadow-md transition-all duration-200 group shadow-sm text-gray-500 hover:text-pink-500" title="Instagram">
                             <svg className="w-4 h-4 text-gray-600 group-hover:text-pink-500 transition-colors" fill="currentColor" viewBox="0 0 24 24">
                                 <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
                             </svg>
                         </a>
                         <a href="mailto:moussandou.mroivili@epitech.eu" target="_blank" rel="noopener noreferrer"
-                            className="w-8 h-8 bg-white rounded-lg border border-gray-200/60 flex items-center justify-center hover:bg-gray-50 transition-colors group" title="Email">
+                            className="w-9 h-9 bg-white rounded-xl border border-gray-200/60 flex items-center justify-center hover:bg-white hover:scale-110 hover:shadow-md transition-all duration-200 group shadow-sm text-gray-500 hover:text-red-500" title="Email">
                             <svg className="w-4 h-4 text-gray-600 group-hover:text-red-500 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
@@ -156,20 +170,23 @@ export const RightSidebar: React.FC = () => {
             </div>
 
             {/* Clock */}
-            <div className="bg-[#f5f5f5] rounded-xl p-4 border border-gray-200/60">
-                <div className="text-center">
-                    <p className="text-3xl font-light text-gray-700 font-mono tracking-tight">
+            <div className="bg-gradient-to-b from-white to-[#e8e8e8] rounded-2xl p-4 border border-[#d4d4d4] shadow-sm relative overflow-hidden group">
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/60 to-transparent pointer-events-none" />
+                <div className="text-center relative z-10">
+                    <p className="text-3xl font-light text-gray-600 font-mono tracking-tighter drop-shadow-sm">
                         {time.toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' })}
                     </p>
-                    <p className="text-[10px] text-gray-400 mt-1 capitalize">
+                    <p className="text-[10px] text-[#5acbf7] mt-1 capitalize font-bold tracking-wider">
                         {time.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })}
                     </p>
                 </div>
             </div>
 
             {/* Project Info */}
-            <div className="bg-[#f5f5f5] rounded-xl p-4 border border-gray-200/60 flex-1">
-                <h3 className="text-[11px] font-semibold text-gray-500 mb-3 uppercase tracking-wide">
+            <div className="bg-gradient-to-b from-white to-[#e8e8e8] rounded-2xl p-4 border border-[#d4d4d4] shadow-sm flex-1 relative overflow-hidden">
+                <div className="absolute inset-x-0 top-0 h-1/2 bg-gradient-to-b from-white/60 to-transparent pointer-events-none" />
+                <h3 className="text-[11px] font-bold text-gray-400 mb-3 uppercase tracking-wider relative z-10 flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-[#5acbf7]"></span>
                     Project Info
                 </h3>
                 <div className="space-y-2">
