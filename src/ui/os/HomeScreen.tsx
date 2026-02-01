@@ -42,18 +42,25 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
     }, [selectedIndex]);
 
     return (
-        <div className="w-full h-full bg-[#eee] flex flex-col font-jersey overflow-hidden">
-            {/* Top Bar - Larger */}
-            <div className="h-6 bg-gradient-to-b from-[#ddd] to-[#ccc] border-b border-white flex justify-center items-center shrink-0">
-                <span className="text-gray-600 text-[10px] font-bold tracking-widest">MOUSSANDOU OS</span>
+        <div className="w-full h-full bg-[#eeeeee] flex flex-col font-jersey overflow-hidden relative">
+            {/* Background Pattern - Subtle & Light */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none" style={{
+                backgroundImage: 'linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000), linear-gradient(45deg, #000 25%, transparent 25%, transparent 75%, #000 75%, #000)',
+                backgroundSize: '4px 4px',
+                backgroundPosition: '0 0, 2px 2px'
+            }}></div>
+
+            {/* Top Bar - Original Light Styling */}
+            <div className="h-6 bg-gradient-to-b from-[#ddd] to-[#ccc] border-b border-white flex justify-center items-center shrink-0 z-10 shadow-sm relative">
+                <span className="text-gray-600 text-[10px] font-bold tracking-widest drop-shadow-sm">MOUSSANDOU OS</span>
             </div>
 
-            {/* Grid - Scrollable, Relative for offset calculation */}
+            {/* Grid - Scrollable */}
             <div
                 ref={containerRef}
-                className="flex-1 p-2 overflow-y-auto no-scrollbar scroll-smooth relative"
+                className="flex-1 p-3 overflow-y-auto no-scrollbar scroll-smooth relative z-10"
             >
-                <div className="grid grid-cols-2 gap-2 pb-2">
+                <div className="grid grid-cols-2 gap-3 pb-2">
                     {paddedApps.map((app, index) => {
                         const isSelected = index === selectedIndex;
                         const isPlaceholder = (app.id as string) === 'placeholder';
@@ -62,24 +69,25 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
                             <div
                                 key={index}
                                 ref={isSelected ? selectedRef : null}
-                                className={`aspect-square rounded-xl border-2 flex flex-col items-center justify-center relative transition-all duration-150 ${isSelected
-                                    ? 'border-[#5acbf7] shadow-[0_0_8px_rgba(90,203,247,0.6)] bg-white z-10 scale-100' // Removed scale-105 to avoid overflow/clipping with huge items
-                                    : 'border-gray-300 bg-[#f5f5f5] opacity-80 scale-95'
+                                className={`aspect-square rounded-xl flex flex-col items-center justify-center relative transition-all duration-200 ${isSelected
+                                    ? 'bg-white border-4 border-[#5acbf7] shadow-[0_4px_0_#3aa0c5,0_8px_16px_rgba(0,0,0,0.1)] scale-105 -translate-y-1 z-20'
+                                    : 'bg-[#f0f0f0] border-2 border-gray-300 shadow-[0_2px_0_#ccc] opacity-80 scale-95'
                                     }`}
                             >
-                                <div className="absolute inset-0 bg-gradient-to-b from-white/40 to-transparent rounded-xl pointer-events-none"></div>
-
                                 {!isPlaceholder ? (
                                     <>
-                                        <div className="w-16 h-16 mb-1 filter drop-shadow-sm">
+                                        {/* Icon Animation on Select */}
+                                        <div className={`w-14 h-14 mb-1 transition-transform duration-300 filter drop-shadow-sm ${isSelected ? 'scale-110 rotate-3' : 'grayscale-[0.5]'}`}>
                                             {app.icon}
                                         </div>
-                                        <div className="text-xs text-gray-800 font-bold uppercase text-center leading-none px-0.5 break-words w-full shadow-black">
-                                            {app.name}
+                                        <div className="absolute bottom-1.5 w-full text-center px-1">
+                                            <div className={`text-[10px] uppercase font-bold tracking-tight truncate w-full shadow-black ${isSelected ? 'text-[#333]' : 'text-gray-400'}`}>
+                                                {app.name}
+                                            </div>
                                         </div>
                                     </>
                                 ) : (
-                                    <div className="opacity-20 text-3xl text-gray-400">?</div>
+                                    <div className="opacity-10 text-3xl text-gray-400 font-bold">·</div>
                                 )}
                             </div>
                         );
@@ -87,8 +95,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({ apps, selectedIndex }) =
                 </div>
             </div>
 
-            {/* Bottom Bar - Larger */}
-            <div className="h-6 bg-white border-t border-gray-300 flex items-center justify-between px-3 text-[9px] text-gray-500 shrink-0 font-bold">
+            {/* Bottom Bar - Original Light Styling */}
+            <div className="h-6 bg-white border-t border-gray-300 flex items-center justify-between px-3 text-[9px] text-gray-500 shrink-0 font-bold z-10 shadow-[0_-2px_4px_rgba(0,0,0,0.05)] relative">
                 <div className="flex items-center gap-1">
                     <div className="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse"></div>
                     <span>ONLINE</span>
