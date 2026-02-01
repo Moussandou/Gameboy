@@ -170,10 +170,22 @@ export const GameboyEmulator: React.FC = () => {
 
     if (!audioStarted) {
         return (
-            <div className="absolute inset-0 z-50 flex items-center justify-center bg-black/90 text-white cursor-pointer" onClick={startSystem} onTouchStart={startSystem}>
-                <div className="text-center animate-pulse">
+            <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-black/90 text-white cursor-pointer" onClick={startSystem} onTouchStart={startSystem}>
+                <div className="text-center animate-pulse mb-8">
                     <p className="text-xl font-bold mb-2">TAP TO START</p>
                     <p className="text-xs text-gray-400">Initialize Audio & System</p>
+                </div>
+
+                {/* Keyboard Controls Guide */}
+                <div className="bg-white/10 rounded-xl p-4 text-xs text-gray-300 max-w-[200px]">
+                    <p className="text-center text-white font-bold mb-3 text-sm">⌨️ Keyboard Controls</p>
+                    <div className="grid grid-cols-2 gap-x-4 gap-y-1">
+                        <span className="text-gray-400">Arrows</span><span>D-Pad</span>
+                        <span className="text-gray-400">C</span><span>Button A</span>
+                        <span className="text-gray-400">X</span><span>Button B</span>
+                        <span className="text-gray-400">Enter</span><span>Start</span>
+                        <span className="text-gray-400">Shift</span><span>Select</span>
+                    </div>
                 </div>
             </div>
         );
