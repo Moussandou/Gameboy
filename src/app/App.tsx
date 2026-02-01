@@ -6,7 +6,7 @@ const Main: React.FC = () => {
   const { currentSkin } = useCalibration();
 
   return (
-    <div className="flex items-center justify-center w-full h-[100dvh] bg-black overflow-hidden relative">
+    <div className="flex items-center justify-center w-full h-[100dvh] bg-black md:bg-[#e8e8e8] overflow-hidden relative">
       {/* Desktop Background - Elaborate pattern */}
       <div
         className="hidden md:block absolute inset-0 bg-gradient-to-br from-[#f0f0f0] via-[#e8e8e8] to-[#d8d8d8]"
