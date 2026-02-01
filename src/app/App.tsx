@@ -16,8 +16,8 @@ const Main: React.FC = () => {
         <img
           src={currentSkin}
           alt="GameBoy Background"
-          className="block w-full h-full md:w-auto md:h-[90vh] md:max-h-[900px] select-none pointer-events-none touch-none"
-          style={{ objectFit: 'contain' }}
+          className="block w-full h-full md:w-auto md:h-[90vh] md:max-h-[900px] select-none pointer-events-none touch-none md:object-contain"
+          style={{ objectFit: 'fill' }}
         />
 
         {/* GameBoy Emulator - Always shown (auto-calibrated) */}
