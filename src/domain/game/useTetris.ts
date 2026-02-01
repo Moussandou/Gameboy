@@ -142,7 +142,7 @@ export const useTetris = (input: Set<string>) => {
             // Rotate
             const next = rotate(piece);
             if (!checkCollision(next, grid)) {
-                setPiece(next);
+                setTimeout(() => setPiece(next), 0);
                 moved = true;
             }
         }

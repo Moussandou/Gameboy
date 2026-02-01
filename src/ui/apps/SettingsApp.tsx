@@ -4,6 +4,9 @@ import { useCalibration } from '../../domain/calibration/CalibrationContext';
 import { useProfile } from '../../domain/profile/ProfileContext';
 import { AVAILABLE_SKINS } from '../../domain/calibration/constants';
 
+const ROWS = 7; // Volume, Brightness, Theme, Skin, Wallpaper, Music, Recalibrate
+const WALLPAPERS = ['default', 'particles', 'clouds'];
+
 export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
     const { volume, brightness, musicEnabled, wallpaper, theme, setVolume, setBrightness, toggleMusic, setWallpaper, toggleTheme } = useSystem();
     const { currentSkin, setSkin, resetCalibration } = useCalibration();
@@ -12,9 +15,6 @@ export const SettingsApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
     const prevInput = useRef<Set<string>>(new Set());
     const containerRef = useRef<HTMLDivElement>(null);
     const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
-
-    const ROWS = 7; // Volume, Brightness, Theme, Skin, Wallpaper, Music, Recalibrate
-    const WALLPAPERS = ['default', 'particles', 'clouds'];
 
     useEffect(() => {
         if (!input) return;

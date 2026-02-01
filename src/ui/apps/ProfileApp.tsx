@@ -98,7 +98,7 @@ export const ProfileApp: React.FC<{ input?: Set<string> }> = ({ input }) => {
 
             // Save / Exit
             if (isJustPressed('A') || isJustPressed('B') || isJustPressed('START')) {
-                setIsEditing(false);
+                setTimeout(() => setIsEditing(false), 0);
             }
 
         } else {
