@@ -17,10 +17,15 @@ export const BootScreen: React.FC = () => {
             {/* Main Container for Animation */}
             <div className={`flex flex-col items-center justify-center transition-all duration-1000 transform ${showNintendo ? 'opacity-100 scale-100' : 'opacity-0 scale-90'}`}>
 
-                {/* Logo Icon (Simple Geometric Shape imitating a console logo) */}
+                {/* Logo Icon (App Grid Shape) */}
                 <div className="mb-6 relative">
-                    <div className="w-16 h-16 border-4 border-[#555] rounded-full flex items-center justify-center shadow-lg bg-white z-10 relative">
-                        <div className="w-8 h-8 bg-[#555] rounded-full"></div>
+                    <div className="w-16 h-16 bg-white border-4 border-[#555] rounded-2xl flex items-center justify-center shadow-lg z-10 relative">
+                        <div className="grid grid-cols-2 gap-1.5 p-3">
+                            <div className="w-3.5 h-3.5 bg-[#555] rounded-[2px]"></div>
+                            <div className="w-3.5 h-3.5 bg-[#555] rounded-[2px]"></div>
+                            <div className="w-3.5 h-3.5 bg-[#555] rounded-[2px]"></div>
+                            <div className="w-3.5 h-3.5 bg-[#blue-400] bg-[#555] rounded-[2px]"></div>
+                        </div>
                     </div>
                     {/* Glow effect behind logo */}
                     <div className="absolute inset-0 bg-blue-400 blur-xl opacity-20 rounded-full scale-150"></div>

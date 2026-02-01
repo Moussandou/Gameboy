@@ -34,7 +34,7 @@ class AudioService {
         noiseFilter.type = 'highpass';
         noiseFilter.frequency.value = 1000;
         const noiseGain = this.context.createGain();
-        noiseGain.gain.setValueAtTime(0.15 * this.masterVolume, t);
+        noiseGain.gain.setValueAtTime(0.04 * this.masterVolume, t);
         noiseGain.gain.exponentialRampToValueAtTime(0.01, t + 0.03);
 
         noise.connect(noiseFilter);
@@ -47,7 +47,7 @@ class AudioService {
         const gain = this.context.createGain();
         osc.frequency.setValueAtTime(300, t);
         osc.frequency.exponentialRampToValueAtTime(100, t + 0.05);
-        gain.gain.setValueAtTime(0.1 * this.masterVolume, t);
+        gain.gain.setValueAtTime(0.03 * this.masterVolume, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.05);
 
         osc.connect(gain);

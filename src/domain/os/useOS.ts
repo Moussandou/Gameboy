@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import type { OSState, AppId } from './types';
 
+const INPUT_DEBOUNCE_MS = 120; // Minimum ms between processing same button
 
 export const useOS = (input: Set<string>) => {
     const [status, setStatus] = useState<OSState>('BOOT');
@@ -9,6 +10,8 @@ export const useOS = (input: Set<string>) => {
 
     // Track previous input to detect "new" presses (rising edge)
     const prevInput = useRef<Set<string>>(new Set());
+    // Track last process time per button to debounce
+    const lastProcessTime = useRef<Map<string, number>>(new Map());
 
     // Boot Sequence
     useEffect(() => {
@@ -22,11 +25,23 @@ export const useOS = (input: Set<string>) => {
 
     // Input Handling
     useEffect(() => {
-        const isJustPressed = (btn: string) => input.has(btn) && !prevInput.current.has(btn);
+        const now = Date.now();
+
+        const isJustPressed = (btn: string) => {
+            if (!input.has(btn)) return false;
+            if (prevInput.current.has(btn)) return false;
+
+            // Debounce check
+            const lastTime = lastProcessTime.current.get(btn) || 0;
+            if (now - lastTime < INPUT_DEBOUNCE_MS) return false;
+
+            lastProcessTime.current.set(btn, now);
+            return true;
+        };
 
         if (status === 'HOME') {
             const COLS = 2; // 2 Columns for the grid
-            const TOTAL_APPS = 4; // We will have placeholders
+            const TOTAL_APPS = 4; // Snake, Settings, Breakout, Simon
 
             if (isJustPressed('RIGHT')) {
                 setSelectedAppIndex(prev => {
@@ -48,12 +63,11 @@ export const useOS = (input: Set<string>) => {
             }
 
             if (isJustPressed('A')) {
-                const apps: AppId[] = ['snake', 'settings'];
+                const apps: AppId[] = ['snake', 'settings', 'breakout', 'simon'];
                 const selectedId = apps[selectedAppIndex];
                 if (selectedId) {
                     setCurrentAppId(selectedId);
                     setStatus('APP_RUNNING');
-                    // Sound is already played by Emulator
                 }
             }
         } else if (status === 'APP_RUNNING') {
@@ -64,7 +78,6 @@ export const useOS = (input: Set<string>) => {
         }
 
         // Update previous input for the next cycle
-        // We clone the Set to ensure we have a snapshot of the current state
         prevInput.current = new Set(input);
     }, [input, status, selectedAppIndex]);
 
@@ -74,3 +87,4 @@ export const useOS = (input: Set<string>) => {
         selectedAppIndex,
     };
 };
+

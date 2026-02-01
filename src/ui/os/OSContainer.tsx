@@ -4,6 +4,8 @@ import { BootScreen } from './BootScreen';
 import { HomeScreen } from './HomeScreen';
 import { GameScreen } from '../modules/gameboy/GameScreen';
 import { SettingsApp } from '../apps/SettingsApp';
+import { BreakoutScreen } from '../apps/BreakoutScreen';
+import { SimonScreen } from '../apps/SimonScreen';
 import type { AppConfig } from '../../domain/os/types';
 
 // App Registry
@@ -29,6 +31,30 @@ const APPS: AppConfig[] = [
         ),
         component: SettingsApp
     },
+    {
+        id: 'breakout',
+        name: 'Wall Breaker',
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full text-orange-500">
+                <rect x="2" y="4" width="20" height="3" rx="1" />
+                <rect x="2" y="9" width="20" height="3" rx="1" />
+                <circle cx="12" cy="18" r="2" />
+                <rect x="8" y="21" width="8" height="2" rx="1" />
+            </svg>
+        ),
+        component: BreakoutScreen
+    },
+    {
+        id: 'simon',
+        name: 'Memory Tones',
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full text-purple-500">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 2v10l7 4" />
+            </svg>
+        ),
+        component: SimonScreen
+    },
 ];
 
 interface OSContainerProps {
@@ -53,7 +79,7 @@ export const OSContainer: React.FC<OSContainerProps> = ({ input, gameProps }) =>
             if (currentAppId === 'snake') {
                 return <App {...gameProps} />;
             }
-            // Pass input mainly for apps that need it (like Settings)
+            // Pass input for apps that need it (Settings, Breakout)
             return <App input={input} />;
         }
     }
