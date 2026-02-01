@@ -160,7 +160,7 @@ export const useTetris = (input: Set<string>) => {
             } else if (isHeld('RIGHT')) {
                 const next = { ...piece, x: piece.x + 1 };
                 if (!checkCollision(next, grid)) {
-                    setPiece(next);
+                    setTimeout(() => setPiece(next), 0);
                     moved = true;
                 }
             } else if (isHeld('DOWN')) {
