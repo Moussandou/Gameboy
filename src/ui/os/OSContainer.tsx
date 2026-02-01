@@ -9,6 +9,7 @@ import { SimonScreen } from '../apps/SimonScreen';
 import type { AppConfig } from '../../domain/os/types';
 
 import { ClockApp } from '../apps/ClockApp';
+import { TetrisScreen } from '../apps/TetrisScreen';
 
 // App Registry
 const APPS: AppConfig[] = [
@@ -67,6 +68,17 @@ const APPS: AppConfig[] = [
             </svg>
         ),
         component: ClockApp
+    },
+    {
+        id: 'tetris',
+        name: 'Block Stack',
+        icon: (
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-full h-full text-cyan-500">
+                <path d="M2 14h4v-4h4v-4h4v4h4v4h4" />
+                <rect x="2" y="14" width="20" height="8" rx="1" opacity="0.5" />
+            </svg>
+        ),
+        component: TetrisScreen
     },
 ];
 
