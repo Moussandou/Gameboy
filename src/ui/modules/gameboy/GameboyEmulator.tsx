@@ -105,6 +105,64 @@ export const GameboyEmulator: React.FC = () => {
         };
     }, []);
 
+    // Keyboard Support
+    useEffect(() => {
+        const handleKeyDown = (e: KeyboardEvent) => {
+            const key = e.key.toLowerCase();
+            let btn = '';
+
+            if (key === 'arrowup') btn = 'UP';
+            if (key === 'arrowdown') btn = 'DOWN';
+            if (key === 'arrowleft') btn = 'LEFT';
+            if (key === 'arrowright') btn = 'RIGHT';
+            if (key === 'c') btn = 'A';
+            if (key === 'x') btn = 'B';
+            if (key === 'enter') btn = 'START';
+            if (key === 'shift') btn = 'SELECT';
+
+            if (btn) {
+                setPressedButtons(prev => {
+                    const next = new Set(prev);
+                    next.add(btn);
+                    if (!prev.has(btn)) {
+                        audioService.playButtonPress();
+                    }
+                    return next;
+                });
+            }
+        };
+
+        const handleKeyUp = (e: KeyboardEvent) => {
+            const key = e.key.toLowerCase();
+            let btn = '';
+
+            if (key === 'arrowup') btn = 'UP';
+            if (key === 'arrowdown') btn = 'DOWN';
+            if (key === 'arrowleft') btn = 'LEFT';
+            if (key === 'arrowright') btn = 'RIGHT';
+            if (key === 'c') btn = 'A';
+            if (key === 'x') btn = 'B';
+            if (key === 'enter') btn = 'START';
+            if (key === 'shift') btn = 'SELECT';
+
+            if (btn) {
+                setPressedButtons(prev => {
+                    const next = new Set(prev);
+                    next.delete(btn);
+                    return next;
+                });
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        window.addEventListener('keyup', handleKeyUp);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            window.removeEventListener('keyup', handleKeyUp);
+        };
+    }, []);
+
     const startSystem = () => {
         audioService.resume();
         setAudioStarted(true);
