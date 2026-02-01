@@ -19,6 +19,15 @@ const Main: React.FC = () => {
         }}
       />
 
+      {/* Credits - Desktop only */}
+      <div className="hidden md:flex absolute bottom-4 left-0 right-0 justify-center z-20">
+        <div className="bg-white/80 backdrop-blur-sm px-6 py-3 rounded-full shadow-lg border border-gray-200">
+          <p className="text-gray-600 text-sm font-medium">
+            Created by <span className="text-[#5acbf7] font-bold">Moussandou</span> • GameBoy OS Emulator
+          </p>
+        </div>
+      </div>
+
       {/* Container - Full screen on mobile, constrained on desktop */}
       <div
         className="relative flex items-center justify-center w-full h-full md:h-auto md:w-auto overflow-hidden md:shadow-2xl md:rounded-3xl z-10"
