@@ -14,6 +14,8 @@ export interface CalibrationData {
 export interface CalibrationState {
     data: CalibrationData;
     isCalibrated: boolean;
+    currentSkin: string;
     saveCalibration: (data: CalibrationData) => void;
     resetCalibration: () => void;
+    setSkin: (skin: string) => void;
 }
