@@ -87,7 +87,8 @@ export const useSimon = (input: Set<string>): SimonState => {
 
         const startTimeout = setTimeout(showNext, 500);
         return () => clearTimeout(startTimeout);
-    }, [sequence, isRunning, gameOver, playerTurn]); // Trigger when sequence changes
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [sequence, isRunning, gameOver]); // Trigger ONLY when sequence changes (not when turn changes)
 
     // Player Input Handling
     useEffect(() => {
