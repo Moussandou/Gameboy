@@ -39,7 +39,7 @@ export const TetrisScreen: React.FC<TetrisScreenProps> = ({ input }) => {
                     </div>
                 </div>
             ) : (
-                <div className={`relative border-4 ${isDark ? 'border-[#444] bg-[#222]' : 'border-gray-400 bg-white'} rounded p-1 shadow-inner z-10`} style={{ width: '60%', aspectRatio: `${COLS}/${ROWS}` }}>
+                <div className={`relative border-4 ${isDark ? 'border-[#444] bg-[#222]' : 'border-gray-400 bg-white'} rounded p-1 shadow-inner z-10 -mt-6`} style={{ width: '60%', aspectRatio: `${COLS}/${ROWS}` }}>
                     <div className="w-full h-full grid" style={{ gridTemplateColumns: `repeat(${COLS}, 1fr)`, gridTemplateRows: `repeat(${ROWS}, 1fr)` }}>
                         {grid.map((row, y) => (
                             row.map((cell, x) => {
