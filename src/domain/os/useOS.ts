@@ -52,7 +52,7 @@ export const useOS = (input: Set<string>) => {
 
         if (status === 'HOME') {
             const COLS = 2;
-            const TOTAL_APPS = 6;
+            const TOTAL_APPS = 7;
 
             if (btn === 'RIGHT') {
                 setSelectedAppIndex(prev => {
@@ -69,7 +69,7 @@ export const useOS = (input: Set<string>) => {
             } else if (btn === 'UP') {
                 setSelectedAppIndex(prev => Math.max(prev - COLS, 0));
             } else if (btn === 'A') {
-                const apps: AppId[] = ['snake', 'settings', 'breakout', 'simon', 'clock', 'tetris'];
+                const apps: AppId[] = ['snake', 'settings', 'breakout', 'simon', 'clock', 'tetris', 'credits'];
                 const selectedId = apps[selectedAppIndex];
                 if (selectedId) {
                     setCurrentAppId(selectedId);
